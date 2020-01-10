@@ -1,0 +1,120 @@
+
+        <div class="row">
+           
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4"> 
+                <div class="text-center">
+                    <h2>Consulta de Inventarios</h2>  
+                </div>
+                  
+                <div class="card-header">
+                  <div class="row">
+                          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                            <div class="row">
+                              <div class="col-8">
+                                <div class="form-group" id="empresasContainer">
+                                  <label>Empresa:</label>
+                                  <select id="cmbEmpresas" class="form-control">
+                                      <option value="">Todas...</option>                                      
+                                  </select>
+                                </div>
+                              </div>                             
+                            </div>
+                          </div>
+
+                          <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 text-right">                         
+                            <div class="form-group">
+                              <label> </label>
+                              <div class="input-group">
+                                <input type="text" id="txtBuscar" class="form-control col-12" placeholder="Buscar producto por descripción....">
+                                <div class="input-group-append">
+                                  <button class="btn btn-info waves-effect waves-themed" id="btnBuscar">
+                                    <li class="fal fa-search"></li>
+                                  </button>
+                                </div>  
+                              </div>
+                            </div>                            
+                          </div>
+                  </div>
+                  
+                  
+                </div>
+       
+                <!-- Card Body -->
+                <div class="card-body">
+                       <!--Tabla de ordenes-->
+                  <div class="table table-responsive">
+                      <table class="table table-striped table-hovered" id="tblListado">
+                        <thead class="bg-info text-white">
+                          <tr>
+                            <td>Descripción/Cod</td>
+                            <td>Existencia</td>
+                            <td>Costo</td>
+                            <td>TotalCosto</td>
+                            <td></td>
+                          </tr>
+                        </thead>
+                        <tbody id="tblInventarios">
+                  
+
+                        </tbody>
+                      </table>
+                    </div>
+                 
+                </div>
+              </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="modal fade" id="modalDatosProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                          <div class="modal-header">
+                              <label class="modal-title text-danger h5" id="">Detalles del Producto</label>
+                          </div>
+                      <div class="modal-body">
+                          <div class="col-12">
+                              <h3>Precios del Producto</h3>
+                              <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
+                                  <thead>
+                                    <tr>
+                                      <td>Medida</td>
+                                      <td>Equivale</td>
+                                      <td>Costo</td>
+                                      <td>Público</td>
+                                      <td>MayoreoA</td>
+                                      <td>MayoreoB</td>
+                                      <td>MayoreoC</td>
+                                    </tr>
+                                  </thead>
+                                  <tbody id="tblPrecios">
+
+                                  </tbody>
+                                </table>
+
+                              </div>
+      
+                              <hr class="sidebar-divider">
+                              
+      
+                          </div>
+                      </div>
+      
+                      <div class="modal-footer">
+
+                          <button type="button" class="btn bg-info btn-round btn-lg text-white col-12" data-dismiss="modal">
+                            Aceptar
+                          </button>
+
+                      </div>
+                  </div>
+
+          
+              </div>
+        </div>
+
+     
