@@ -1,5 +1,5 @@
 
-var CACHE = 'onne';
+var CACHE = 'onnebusiness';
 const staticAssets = [
   './',
   './manifest.json',
