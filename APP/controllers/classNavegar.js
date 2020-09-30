@@ -9,10 +9,10 @@ let classNavegar = {
         //})
     },
     inventarios: async()=>{
-        funciones.loadView('../DASHBOARD/views/isc/inventarios/index.html','root')
+        funciones.loadView('../DASHBOARD/views/community/inventarios/index.html','root')
         .then(()=>{
             // carga los estilos de la vista
-            funciones.loadScript('./DASHBOARD/views/isc/inventarios/controller.js','root')
+            funciones.loadScript('./DASHBOARD/views/community/inventarios/controller.js','root')
             .then(()=>{
                 fcnIniciarVista();
             })

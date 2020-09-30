@@ -2,15 +2,12 @@
 
 let btnMenuInventarios = document.getElementById('btnMenuInventarios');
 let btnMenuVentas = document.getElementById('btnMenuVentas');
-let btnMenuProductos = document.getElementById('btnMenuProductos');
 let btnMenuCortes = document.getElementById('btnMenuCortes');
-let btnMapa = document.getElementById('btnMenuMapa');
+
 
 btnMenuInventarios.style = "visibility:hidden";
 btnMenuVentas.style = "visibility:hidden";
-btnMenuProductos.style = "visibility:hidden";
 btnMenuCortes.style = "visibility:hidden";
-btnMenuMapa.style = "visibility:hidden";
 
 function InicializarBotonesMenu(){
 
