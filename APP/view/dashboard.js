@@ -245,6 +245,7 @@ async function fcnIniciarVista(){
 
 
     cmbEmpresas.addEventListener('change',async()=>{
+        GlobalEmpnit = cmbEmpresas.value;
         await getVentasDia('tblVentas','cmbMeses','cmbAnio');    
     });
 
