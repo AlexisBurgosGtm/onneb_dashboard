@@ -1,3 +1,4 @@
+let GlobalEmpnit = '';
 let GlobalSistema = '';
 let GlobalToken = '';
 let GlobalUser = '';

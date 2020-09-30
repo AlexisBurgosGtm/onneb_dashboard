@@ -1,8 +1,5 @@
 ﻿var socket = io();
 
-//let btnReportes = document.getElementById('btnReportes');
-//let btnConfig = document.getElementById('btnConfig');
-
 let btnMenuInventarios = document.getElementById('btnMenuInventarios');
 let btnMenuVentas = document.getElementById('btnMenuVentas');
 let btnMenuProductos = document.getElementById('btnMenuProductos');
@@ -31,18 +28,12 @@ function InicializarBotonesMenu(){
           btnMenuVentas.addEventListener('click',()=>{
             classNavegar.dashventas();
           });
-          // LISTENER DE ANALISIS DE PRODUCTOS
-          btnMenuProductos.addEventListener('click',()=>{
-            classNavegar.productos();
-          });
+
           // LISTENER DE CORTES
           btnMenuCortes.addEventListener('click',()=>{
             classNavegar.cortes();
           })
-          // LISTENER DE MAPAS
-          btnMenuMapa.addEventListener('click',()=>{
-            classNavegar.maparuta();
-          })
+
                             
 }
 
@@ -61,7 +52,7 @@ if ('Notification' in window) {};
 
 function requestPermission() {
   if (!('Notification' in window)) {
-    alert('Notification API not supported!');
+    //alert('Notification API not supported!');
     return;
   }
   

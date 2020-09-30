@@ -16,7 +16,7 @@ self.addEventListener('install', function(evt) {
 });
 
 self.addEventListener('fetch', function(evt) {
-  /*
+  
   var req = evt.request.clone();
   if (navigator.onLine){
     if (req.clone().method == "GET") {
@@ -29,7 +29,7 @@ self.addEventListener('fetch', function(evt) {
       //evt.waitUntil(update(evt.request));
     }
   }
-  */
+  
 });
 
 
