@@ -43,6 +43,10 @@ app.get("/",function(req,res){
 	res.sendFile(path + 'index.html');
 }); 
 
+
+app.get('/noticias', function (req,res){
+  res.sendFile(path + 'index.html');
+})
 app.get("/api/index",function(req,res){
   
 	res.sendFile(path + '/APP/VENTAS/index.html');
