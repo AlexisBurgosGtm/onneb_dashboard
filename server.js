@@ -40,13 +40,21 @@ router.use(function (req,res,next) {
 
 app.get("/",function(req,res){
   execute.start();
-	res.sendFile(path + 'index.html');
+  res.sendFile(path + 'index.html');
+  
 }); 
 
 
-app.get('/noticias', function (req,res){
-  res.sendFile(path + 'index.html');
-})
+app.get("/noticias",function(req,res){
+  
+  const {token, empnit} = req.query;
+
+  res.sendFile(path + 'app/index.html');
+  
+}); 
+
+
+
 app.get("/api/index",function(req,res){
   
 	res.sendFile(path + '/APP/VENTAS/index.html');
@@ -73,6 +81,7 @@ app.use('/api', routerapi);
 
 
 app.use("/",router);
+
 
 app.use("*",function(req,res){
   res.send('<h1 class="text-danger">NO DISPONIBLE</h1>');
