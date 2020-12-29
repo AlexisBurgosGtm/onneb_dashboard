@@ -368,6 +368,7 @@ async function getVentasDia(idcontenedor,idMes,idAnio){
 };
 
 async function getDataVentas(empnit,dia){
+    
     $('#modalDatosVenta').modal('show');
 
     document.getElementById('txtDiaSeleccionado').innerText = `Ventas del día ${dia}`;
