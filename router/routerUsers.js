@@ -19,7 +19,6 @@ router.post("/qry", async(req,res)=>{
 	
 	let con;
 
-	let 
 	switch (host) {
 		case 'ONNE':
 			con = {
@@ -59,7 +58,7 @@ router.post("/qry", async(req,res)=>{
 			break;
 	};
 	
-	console.dir(host);
+	console.dir(con);
 
 	const sql2 = require('mssql');
 	try {
@@ -80,7 +79,6 @@ router.post("/qry", async(req,res)=>{
 		})
 	  } catch (error) {
 		res.send('Error al ejecutar la consulta: ' + error)   
-		sql2.close();
 	  };
 
 });
