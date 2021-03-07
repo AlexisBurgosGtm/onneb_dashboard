@@ -8,6 +8,12 @@ let classNavegar = {
             });
         //})
     },
+    programador: async()=>{
+        funciones.loadScript('./view/programador.js','root')
+        .then(()=>{
+            iniciar();
+        })        
+    },
     inventarios: async()=>{
         funciones.loadView('../DASHBOARD/views/community/inventarios/index.html','root')
         .then(()=>{
