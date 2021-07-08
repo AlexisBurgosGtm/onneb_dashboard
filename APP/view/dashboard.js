@@ -20,7 +20,7 @@ function getView(){
                                 
                                     <div class="form-group" id="empresasContainer">
                                     <label>Empresa:</label>
-                                    <select id="cmbEmpresas" class="form-control">
+                                    <select id="cmbEmpresas" class="form-control border-primary shadow">
 
                                     </select>
                                     </div>
@@ -179,14 +179,22 @@ function getView(){
             <div class="modal fade" id="modalDatosVenta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" role="document">
                   <div class="modal-content">
-                          <div class="modal-header">
-                              
-                          </div>
+                        <div class="modal-header">
+                            
+                            <button type="button" class="btn bg-info btn-round btn-lg text-white col-12" data-dismiss="modal">
+                                Aceptar
+                            </button>
+                          
+                        </div>
                       <div class="modal-body">
+                            <div class="form-group">
+                                <label>Escriba para Buscar</label>
+                                <input type="text" class="bg-amarillo" id="txtBuscarFactura">
+                            </div>
                           <div class="col-12">
                               <h3 id="txtDiaSeleccionado">Ventas del Día</h3>
                               <div class="table-responsive">
-                                <table class="table table-striped table-bordered">
+                                <table class="table table-striped table-bordered" id="tblFacturas">
                                   <thead>
                                     <tr>
                                       <td>Serie</td>
@@ -260,7 +268,10 @@ async function fcnIniciarVista(){
         
     await getEmpresas();
     
-    
+    let txtBuscarFactura = document.getElementById('txtBuscarFactura');
+    txtBuscarFactura.addEventListener('keyup',()=>{
+        funciones.FiltrarTabla('tblFacturas','txtBuscarFactura');
+    })
 };  
 
 
@@ -382,7 +393,7 @@ async function getDataVentas(empnit,dia){
     .then((response) => {
         const data = response.data;        
         data.recordset.map((rows)=>{
-            str += `<tr>
+            str += `<tr ondblclick="openFEL('${rows.FELID}')">
                         <td>${rows.CODDOC}</td>
                         <td>${rows.CORRELATIVO}</td>                     
                         <td>${rows.CLIENTE}</td>
@@ -399,3 +410,7 @@ async function getDataVentas(empnit,dia){
     });
 
 };
+
+function openFEL(uddi){
+    window.open(''+ uddi.toString())
+}
