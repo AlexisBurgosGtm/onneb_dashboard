@@ -789,7 +789,7 @@ html body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  height: 4.125rem;
+  height: 2.125rem;
   position: relative;
   z-index: 1000;
   -webkit-box-ordinal-group: 2;
@@ -1086,7 +1086,7 @@ html body {
   .header-function-fixed:not(.nav-function-top) .page-header {
     margin-left: 16.875rem; }
   .header-function-fixed:not(.nav-function-top).nav-function-minify .page-sidebar .page-logo {
-    width: 4.6875rem; }
+    width: 2.6875rem; }
   .header-function-fixed.nav-function-top {
     /*.page-wrapper {
 				padding-top: $header-height-nav-top;
@@ -1659,7 +1659,7 @@ html body {
         color: #1d1d1d; }
     .nav-function-top .page-header {
       margin-top: 0;
-      height: 4.125rem;
+      height: 2.125rem;
       background-image: -webkit-gradient(linear, right top, left top, from(rgba(51, 148, 225, 0.18)), to(transparent));
       background-image: linear-gradient(270deg, rgba(51, 148, 225, 0.18), transparent);
       background-color: #584475;
@@ -1693,9 +1693,9 @@ html body {
         -webkit-box-shadow: 0 0 0 1px #7a59ad;
                 box-shadow: 0 0 0 1px #7a59ad; }
       .nav-function-top .page-header .header-icon:not(.btn)[data-toggle="dropdown"] + .dropdown-menu {
-        top: 4.125rem !important; }
+        top: 2.125rem !important; }
     .nav-function-top .page-content-wrapper {
-      margin-top: 7.625rem; }
+      margin-top: 2.625rem; }
     .nav-function-top .page-wrapper {
       padding-left: 0; }
       .nav-function-top .page-wrapper .page-footer {
@@ -5701,7 +5701,7 @@ $grid-breakpoints: (
       -webkit-box-shadow: none !important;
               box-shadow: none !important; }
     .header-function-fixed .page-content {
-      margin-top: 4.125rem; }
+      margin-top: 2.125rem; }
   /* Push content */
   .nav-mobile-push:not(.nav-mobile-slide-out) .page-wrapper .page-sidebar {
     -webkit-transform: translate3d(-16.875rem, 0, 0);
@@ -6899,7 +6899,7 @@ body:not(.no-slimscroll) .custom-scroll {
     .mod-main-boxed.header-function-fixed.nav-function-minify:not(.nav-function-top):not(.nav-function-hidden) .page-wrapper .page-header {
       padding-left: 6.6875rem; }
     .mod-main-boxed.header-function-fixed.nav-function-minify:not(.nav-function-top):not(.nav-function-hidden) .page-wrapper .page-content-wrapper {
-      margin-left: 4.6875rem; }
+      margin-left: 2.6875rem; }
     .mod-main-boxed.nav-function-hidden:not(.nav-function-top) .page-sidebar:after {
       position: absolute;
       left: 16.875rem; }
