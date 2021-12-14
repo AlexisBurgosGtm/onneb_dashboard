@@ -132,15 +132,12 @@ router.post("/qryreducedb", async(req,res)=>{
 			db = 'DB_A671FA_farmasalud';
 			break;
 	};
-	
-	console.dir(con);
 
 	let qry = `
-	USE ${db};
-	ALTER ${db} SET RECOVERY SIMPLE;
-	DBCC SHRINKDATABASE (${db},25); 
-	ALTER DATABASE ${db} SET RECOVERY FULL;
+	DBCC SHRINKDATABASE (${db},25);
 	`;
+
+	//console.log(qry);
 
 	const sql2 = require('mssql');
 	try {

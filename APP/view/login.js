@@ -81,6 +81,11 @@ async function fcnLogin(idUser,idPass,idApp){
     })
     .then((response) => {
         const data = response.data;
+        if(Number(data.rowsAffected[0])==0){
+            funciones.AvisoError('Usuario y/o contraseña incorrectas');
+            document.getElementById('btnIniciar').innerHTML = `<i class="fal fa-lock"></i>Iniciar`;
+            return;
+        }
         data.recordset.map((rows)=>{
             if(rows.USUARIO==usuario){
                 GlobalToken=rows.TOKEN;
@@ -95,6 +100,8 @@ async function fcnLogin(idUser,idPass,idApp){
  
     }, (error) => {
         console.log(error);
+        funciones.AvisoError('Usuario y/o contraseña incorrectas')
+        document.getElementById('btnIniciar').innerHTML = `<i class="fal fa-lock"></i>Iniciar`;
     });
 
 }
