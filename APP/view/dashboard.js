@@ -412,5 +412,5 @@ async function getDataVentas(empnit,dia){
 };
 
 function openFEL(uddi){
-    window.open(''+ uddi.toString())
+    window.open('https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid='+ uddi.toString())
 }
