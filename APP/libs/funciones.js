@@ -1130,6 +1130,15 @@ let funciones = {
           //triggering the function
           downloadLink.click();
       }
+    },
+    getHora:()=>{
+      let hoy = new Date();
+      let hora = hoy.getHours();
+      let minuto = hoy.getMinutes();
+      return `${hora.toString()}:${minuto.toString()}`;
+    },
+    gotoGoogleMaps:(lat,long)=>{
+      window.open(`https://www.google.com/maps?q=${lat},${long}`);
     }
 };
 

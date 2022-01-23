@@ -8,7 +8,11 @@ function getView(){
                     <option value="ONNE">ONNE BUSINESS</option>
                     <option value="MERCADOS">MERCADOS EFECTIVOS</option>
                     <option value="LTJ">LTJ DISTRIBUIDORES</option>
+                    <option value="DAFER">DAFER</option>
+                    <option value="POPULAR">DIST POPULAR</option>
+                    <option value="PENIEL">DIST PENIEL</option>
                     <option value="FARMASALUD">FARMASALUD</option>
+                    <option value="DISTRIBUIDORAS">DISTRIBUIDORAS</option>
                 </select>
             
         </div>
@@ -24,29 +28,35 @@ function getView(){
     </div>
     <br>
     <div class="row">
-        <div class="col-3">
+        <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
             <button class="btn btn-success" id="btnLog">
-                <i class="fal fa-power"></i>
-                Reducir Log
+               
+                Log
             </button>
         </div>
 
-        <div class="col-3">
+        <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
             <button class="btn btn-warning" id="btnIndex">
-                <i class="fal fa-check"></i>
-                Indexar Tablas
+              
+                Indexar
             </button>
         </div>       
-        <div class="col-3">
+        <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
             <button class="btn btn-danger" id="btnReduce">
-                <i class="fal fa-sync"></i>
-                Reducir Db
+               
+                Reducir
             </button>
         </div>
-        <div class="col-3">
+        <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
             <button class="btn btn-secondary" id="btnSize">
-                <i class="fal fa-list"></i>
-                Tamaño DB
+              
+                Tamaño
+            </button>
+        </div>   
+        <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
+            <button class="btn btn-outline-info" id="btnGetUsuarios">
+                <i class="fal fa-user"></i>
+                Usuarios
             </button>
         </div>       
 
@@ -56,15 +66,20 @@ function getView(){
         <div class="card shadow">
             <textarea class="form-control" id="txtqry"  rows="4" cols="50">
             
+
             </textarea>
         </div>
-        
-        <br><br>
-        
+    </div>
+
+    <div class="row">        
         <div class="card shadow" id="txtContainer">
+
+
         </div>    
     </div>
     
+    
+
     `
     root.innerHTML = str;
 
@@ -82,7 +97,8 @@ function addListeners(){
     let btnIndex = document.getElementById('btnIndex');
     let btnReduce = document.getElementById('btnReduce');
     let btnSize = document.getElementById('btnSize');
-    
+
+        
     btnSize.addEventListener('click',()=>{
         fcn_SizeDb();
     });
@@ -110,6 +126,12 @@ function addListeners(){
             }
         })
     })  
+
+
+    let btnGetUsuarios = document.getElementById('btnGetUsuarios');
+    btnGetUsuarios.addEventListener('click',()=>{
+        fcn_getUsuarios();
+    })
 
 };
 
@@ -142,10 +164,6 @@ function runQuery(){
     });
 
 };
-
-
-
-
 
 
 
@@ -253,9 +271,79 @@ function fcn_SizeDb(){
     })
     .then((response) => {
         const data = JSON.stringify(response);
-        txtContainer.innerHTML = data;
+        //response.map(()=>{})
+        console.log(response);
+        txtContainer.innerHTML = JSON.stringify(response.data.recordset[0]);
     }, (error) => {
         txtContainer.innerHTML = error;
     });
+
+};
+
+
+function fcn_getUsuarios(){
+
+    let cmbHost = document.getElementById('cmbHost');
+    let timeout = document.getElementById('txtTimeout').value;
+
+    let txtContainer = document.getElementById('txtContainer');
+    txtContainer.innerHTML = GlobalLoader;
+
+    
+    axios.post('/usuarios/qry_usuarios', {
+        host: cmbHost.value,
+        timeout: Number(timeout)
+    })
+    .then((response) => {
+        const data = response.data;
+
+        let st = '';
+        
+        data.recordset.map((r)=>{
+            st += `
+                <tr>
+                    <td>
+                        ${r.NOMBRE} (c:${r.CODUSUARIO})
+                        <br>
+                        <small class="negrita text-danger">P:${r.PASS}</small>
+                        <br>
+                        <button class="btn btn-sm btn-warning hand" onclick="funciones.gotoGoogleMaps('${r.LAT}','${r.LONG}')">
+                            <i class="fal fa-map"></i>Ubicar
+                        </button>
+                    </td>
+                    <td>
+                        ${r.CODDOC}-${r.CORRELATIVO}
+                        <br>
+                        <small class="negrita text-success">${r.TIPO}</small> 
+                        <br>
+                        <small class="negrita text-danger">${r.CODSUCURSAL}</small>                    
+                    </td>
+                    <td>
+                        <button class="btn btn-md btn-circle btn-info hand shadow" onclick="getDataUsuario('${r.CODDOC}')">
+                            <i class="fal fa-edit"></i>
+                        </button>
+                    </td>
+                </tr>
+            `
+        })
+
+        let table = `<table class="table table-responsive">
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <td>Usuario</td>
+                                <td>Coddoc</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>${st}</tbody>
+                    </table>`
+        txtContainer.innerHTML = table;
+    }, (error) => {
+        txtContainer.innerHTML = error;
+    });
+
+};
+
+function getDataUsuario(coddoc){
 
 };
