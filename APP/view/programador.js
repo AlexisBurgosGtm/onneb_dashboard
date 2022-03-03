@@ -61,7 +61,9 @@ function getView(){
         </div>       
 
     </div>
+    
     <br><br><br>
+
     <div class="row">
         <div class="card shadow">
             <textarea class="form-control" id="txtqry"  rows="4" cols="50">
@@ -78,10 +80,49 @@ function getView(){
         </div>    
     </div>
     
-    
+    <button class="btn btn-info btn-circle btn-xl shadow btn-right hand" id="btnSoporte">
+        <i class="fal fa-comments"></i>
+    </button>
 
     `
-    root.innerHTML = str;
+
+    let modalSoporte = `
+            <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalSoporte">
+                <div class="modal-dialog modal-dialog-right modal-lg">
+                    <div class="modal-content">
+                        <div class="dropdown-header bg-trans-gradient d-flex justify-content-center align-items-center w-100">
+                            <h4 class="m-0 text-center color-white">
+                                Lista de Soporte
+                            </h4>
+                            <button type="button" class="close text-white position-absolute pos-top pos-right p-2 m-1 mr-2" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                            </button>
+                        </div>
+                        <div class="modal-body p-0">
+                            
+                            <div class="table-responsive">
+                                <table class="table table-striped table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <td>Token</td>
+                                            <td>Motivo</td>
+                                            <td>Fecha</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblSoporte">
+                                    
+                                    </tbody>
+                                </table>
+
+                            </div>    
+
+                        </div>
+                    </div>
+                </div>
+            </div> 
+    `
+    root.innerHTML = str + modalSoporte;
 
 };
 
@@ -133,6 +174,12 @@ function addListeners(){
         fcn_getUsuarios();
     })
 
+
+    let btnSoporte = document.getElementById('btnSoporte');
+    btnSoporte.addEventListener('click',()=>{
+        $('#modalSoporte').modal('show');
+        getListaSoporte();
+    });
 };
 
 
@@ -166,6 +213,41 @@ function runQuery(){
 };
 
 
+function getListaSoporte(){
+
+    let container = document.getElementById('tblSoporte');
+    container.innerHTML = GlobalLoader;
+
+    let str = '';
+    
+    axios.post('/usuarios/soporte')
+    .then((response) => {
+        const data = response.data;        
+        data.recordset.map((r)=>{
+            str += `<tr>
+                        <td>${r.TOKEN}
+                            <br>
+                            <small class="negrita">Usuario: ${r.USUARIO}</small>
+                        </td>
+                        <td>${r.MOTIVO}</td>
+                        <td>${r.FECHA}
+                            <br>
+                            <small class="negrita">Hora: ${r.HORA}</small>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn-circle btn-md">
+                                x
+                            </button>
+                        </td>
+                    </tr>`
+        })
+        container.innerHTML = str;
+    }, (error) => {
+        container.innerHTML = error;
+    });
+
+
+}
 
 function fcn_reduceDb(){
 

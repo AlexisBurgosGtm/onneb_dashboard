@@ -5,6 +5,17 @@ const execute = require('./connection');
 let con;
 
 // LOGIN
+router.post("/soporte", async(req,res)=>{
+
+	const {} = req.body;
+
+	let qr = `SELECT TOKEN, USUARIO, HORA, FECHA, MOTIVO, TELEFONO FROM SOPORTE_CLIENTES WHERE ST='PENDIENTE';`
+	execute.Query(res,qr);
+
+});
+
+
+// LOGIN
 router.post("/login", async(req,res)=>{
 	console.log('login solicitado...' + req.body)
 	const {app,usuario,pass} = req.body;

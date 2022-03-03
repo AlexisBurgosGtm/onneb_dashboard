@@ -22,6 +22,14 @@
 }
 
 /* BOTON FLOTANTE ESQUINA DERECHA */
+.btn-right { 
+    position: fixed;
+    z-index: 1088;
+    right: 21px;
+    bottom: 15px;
+    }
+
+    
 #fixed-btn2 { 
 position: fixed;
 z-index: 1088;
