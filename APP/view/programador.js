@@ -27,40 +27,7 @@ function getView(){
         </div>
     </div>
     <br>
-    <div class="row">
-        <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-            <button class="btn btn-success" id="btnLog">
-               
-                Log
-            </button>
-        </div>
-
-        <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-            <button class="btn btn-warning" id="btnIndex">
-              
-                Indexar
-            </button>
-        </div>       
-        <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-            <button class="btn btn-danger" id="btnReduce">
-               
-                Reducir
-            </button>
-        </div>
-        <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-            <button class="btn btn-secondary" id="btnSize">
-              
-                Tamaño
-            </button>
-        </div>   
-        <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-            <button class="btn btn-outline-info" id="btnGetUsuarios">
-                <i class="fal fa-user"></i>
-                Usuarios
-            </button>
-        </div>       
-
-    </div>
+    
     
     <br><br><br>
 
@@ -80,6 +47,10 @@ function getView(){
         </div>    
     </div>
     
+    <button class="btn btn-secondary btn-circle btn-xl shadow btn-middle hand" id="btnOpciones">
+        <i class="fal fa-cog"></i>
+    </button>
+
     <button class="btn btn-info btn-circle btn-xl shadow btn-right hand" id="btnSoporte">
         <i class="fal fa-comments"></i>
     </button>
@@ -122,7 +93,61 @@ function getView(){
                 </div>
             </div> 
     `
-    root.innerHTML = str + modalSoporte;
+
+    let modalOpciones = `
+            <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalOpciones">
+                <div class="modal-dialog modal-dialog-right modal-lg">
+                    <div class="modal-content">
+                        <div class="dropdown-header bg-trans-gradient d-flex justify-content-center align-items-center w-100">
+                            <h4 class="m-0 text-center color-white">
+                                Opciones de Soporte
+                            </h4>
+                            <button type="button" class="close text-white position-absolute pos-top pos-right p-2 m-1 mr-2" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                            </button>
+                        </div>
+                        <div class="modal-body p-0">
+                            <div class="row">
+                                <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
+                                    <button class="btn btn-success" id="btnLog">
+                                    
+                                        Log
+                                    </button>
+                                </div>
+                        
+                                <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
+                                    <button class="btn btn-warning" id="btnIndex">
+                                    
+                                        Indexar
+                                    </button>
+                                </div>       
+                                <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
+                                    <button class="btn btn-danger" id="btnReduce">
+                                    
+                                        Reducir
+                                    </button>
+                                </div>
+                                <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
+                                    <button class="btn btn-secondary" id="btnSize">
+                                    
+                                        Tamaño
+                                    </button>
+                                </div>   
+                                <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
+                                    <button class="btn btn-outline-info" id="btnGetUsuarios">
+                                        <i class="fal fa-user"></i>
+                                        Usuarios
+                                    </button>
+                                </div>       
+                        
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div> 
+    `;
+    root.innerHTML = str + modalSoporte + modalOpciones;
 
 };
 
@@ -180,6 +205,12 @@ function addListeners(){
         $('#modalSoporte').modal('show');
         getListaSoporte();
     });
+
+    let btnOpciones = document.getElementById('btnOpciones');
+    btnOpciones.addEventListener('click',()=>{
+        $('#modalOpciones').modal('show');
+    });
+
 };
 
 
