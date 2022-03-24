@@ -4,6 +4,27 @@ const execute = require('./connection');
 
 let con;
 
+router.post("/delete_anydesk", async(req,res)=>{
+
+	const {id} = req.body;
+
+	let qr = `DELETE FROM SOPORTE_ANYDESK WHERE ID=${id};`
+	execute.Query(res,qr);
+
+});
+
+router.post("/insert_anydesk", async(req,res)=>{
+
+	const {token,sucursal,tipo,anydesk,pass,vendedor} = req.body;
+
+
+	let qr = `INSERT INTO SOPORTE_ANYDESK (TOKEN,SUCURSAL,TIPO, ANYDESK,PASS) 
+				VALUES ('${token}','${sucursal}','${tipo}','${anydesk}','${pass}');`
+
+	execute.Query(res,qr);
+
+});
+
 router.post("/listado_anydesk", async(req,res)=>{
 
 	const {} = req.body;

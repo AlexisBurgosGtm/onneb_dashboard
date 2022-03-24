@@ -84,6 +84,64 @@ function getView(){
                 </div>
             </div> 
     `
+    let modalNuevoAnydesk = `
+    <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalNuevoAnydesk">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="dropdown-header bg-danger d-flex justify-content-center align-items-center w-100">
+                    <h4 class="m-0 text-center color-white">
+                        Agregar Nuevo Anydesk
+                    </h4>
+                    <button type="button" class="close text-white position-absolute pos-top pos-right p-2 m-1 mr-2" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body p-4">
+                   
+                        <div class="form-group">
+                            <label>Token</label>
+                            <input type="text" class="form-control" id="txtAnyToken">
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo</label>
+                            <select class="form-control" id="cmbAnyTipo">
+                                <option value="SERVER">SERVER</option>
+                                <option value="OPER">OPERADOR</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre de la Sucursal</label>
+                            <input type="text" class="form-control" id="txtAnySucursal">
+                        </div>
+                        <div class="form-group">
+                            <label>Acceso Anydesk</label>
+                            <input type="text" class="form-control" id="txtAnyAnydesk">
+                        </div>
+                        <div class="form-group">
+                            <label>Clave</label>
+                            <input type="text" class="form-control" id="txtAnyPass">
+                        </div>
+
+                        <br>
+                        <div class="row">
+                            <div class="col-6">
+                                    <button class="btn btn-circle btn-warning hand btn-xl shadow" id="" data-dismiss="modal">
+                                        <i class="fal fa-arrow-left"></i>
+                                    </button>
+                            </div>
+                            <div class="col-6">
+                                    <button class="btn btn-circle btn-primary hand btn-xl shadow" id="btnAnyGuardar">
+                                        <i class="fal fa-save"></i>
+                                    </button>
+                            </div>                        
+                        </div>
+                      
+
+                </div>
+            </div>
+        </div>
+    </div> 
+`
 
     let modalResponderSoporte = `
             <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalSoporteRespuesta">
@@ -227,7 +285,7 @@ function getView(){
                 </div>
             </div> 
     `;
-    root.innerHTML = str + modalSoporte + modalOpciones + modalResponderSoporte;
+    root.innerHTML = str + modalNuevoAnydesk + modalSoporte + modalOpciones + modalResponderSoporte;
 
 };
 
@@ -303,9 +361,52 @@ function addListeners(){
     let btnNuevoAnydesk = document.getElementById('btnNuevoAnydesk');
     btnNuevoAnydesk.addEventListener('click',()=>{
 
-        funciones.Aviso('Acá se agregarán nuevos Anydesk')
+        document.getElementById('txtAnyAnydesk').value = '';
+        document.getElementById('txtAnyPass').value='';
+
+        $('#modalNuevoAnydesk').modal('show');          
+            
 
     });
+
+    let btnAnyGuardar = document.getElementById('btnAnyGuardar');
+    btnAnyGuardar.addEventListener('click',()=>{
+
+        let txtAnyToken = document.getElementById('txtAnyToken')
+        let txtAnySucursal = document.getElementById('txtAnySucursal');
+        let cmbAnyTipo = document.getElementById('cmbAnyTipo');
+
+
+        let txtAnyAnydesk = document.getElementById('txtAnyAnydesk');
+        let txtAnyPass = document.getElementById('txtAnyPass');
+
+        funciones.Confirmacion('¿Está seguro que desea Guardar este Nuevo Accesso?')
+        .then((value)=>{
+            if(value==true){
+                
+                btnAnyGuardar.innerHTML = '<i class="fal fa-save fa-spin"></i>';
+                btnAnyGuardar.disabled = true;
+
+                insert_anydesk(txtAnyToken.value,txtAnySucursal.value,cmbAnyTipo.value,txtAnyAnydesk.value,txtAnyPass.value,GlobalUser)
+                .then(()=>{
+                    funciones.Aviso('Anydesk Guardar Exitosamente!!');
+                    getListadoAnydesk();
+                    $('#modalNuevoAnydesk').modal('hide');  
+                  
+                    btnAnyGuardar.innerHTML = '<i class="fal fa-save"></i>';
+                    btnAnyGuardar.disabled = false;
+                })
+                .catch(()=>{
+                    funciones.AvisoError('No se pudo Guardar');
+                    btnAnyGuardar.innerHTML = '<i class="fal fa-save"></i>';
+                    btnAnyGuardar.disabled = false;
+                }) 
+
+            }
+        })
+
+    });
+
 
     let txtBuscarAnydesk = document.getElementById('txtBuscarAnydesk');
     txtBuscarAnydesk.addEventListener('keyup',()=>{
@@ -691,6 +792,7 @@ function getListadoAnydesk(){
     .then((response) => {
         const data = response.data;        
         data.recordset.map((r)=>{
+            let idbtnEliminar = `btnEliminarAnydesk${r.ID.toString()}`
             str += `<tr class="border-left-0 border-right-0 border-top-0 border-bottom-info">
                         <td>${r.TOKEN}
                             <br>
@@ -699,6 +801,11 @@ function getListadoAnydesk(){
                         <td>${r.TIPO}</td>
                         <td>${r.ANYDESK}</td>
                         <td>${r.PASS}</td>
+                        <td>
+                            <button class="btn btn-circle btn-md btn-danger" id='${idbtnEliminar}' onclick="delete_selected_anydesk('${r.ID}','${idbtnEliminar}')">
+                                <i class="fal fa-trash"></i>
+                            </button>
+                        </td>
                     </tr>`
         })
         container.innerHTML = str;
@@ -707,4 +814,91 @@ function getListadoAnydesk(){
     });
 
 
+};
+
+function insert_anydesk(token,sucursal,tipo,anydesk,pass,vendedor){
+   
+    return new Promise((resolve, reject) => {
+        axios.post('/usuarios/insert_anydesk', {
+            token:token,
+            sucursal:sucursal,
+            tipo: tipo,
+            anydesk: anydesk,
+            pass:pass,
+            vendedor:vendedor
+        })
+        .then((response) => {
+            const data = response.data;
+            if(Number(data.rowsAffected[0])==0){
+                reject();
+            }else{
+                resolve();
+            }
+        }, (error) => {
+            console.log(error);
+            reject();
+        });
+    });
+};
+
+
+function delete_selected_anydesk(id,idbtn){
+    let btnElim = document.getElementById(idbtn);
+
+    funciones.Confirmacion('¿Está seguro que desea Eliminar este Acceso?')
+    .then((value)=>{
+        if(value==true){
+
+            funciones.Confirmacion('¿Está completamente seguro que desea Eliminar este Acceso?')
+            .then((value)=>{
+                if(value==true){
+                    
+                    btnElim.innerHTML = '<i class="fal fa-trash fa-spin"></i>';
+                    btnElim.disabled = true;
+
+                    delete_anydek(id)
+                    .then(()=>{
+                        funciones.Aviso('Acceso eliminado exitosamente!!');
+                        btnElim.innerHTML = '<i class="fal fa-trash"></i>';
+                        btnElim.disabled = false;
+
+                        getListadoAnydesk();
+
+                       
+
+                    })
+                    .catch(()=>{
+                        funciones.AvisoError('No se pudo Eliminar este Anydesk');
+
+                        btnElim.innerHTML = '<i class="fal fa-trash"></i>';
+                        btnElim.disabled = false;
+
+                    })
+                    
+                }
+            })
+
+        }
+    })
+
+};
+
+function delete_anydek(id){
+   
+    return new Promise((resolve, reject) => {
+        axios.post('/usuarios/delete_anydesk', {
+            id:id
+        })
+        .then((response) => {
+            const data = response.data;
+            if(Number(data.rowsAffected[0])==0){
+                reject();
+            }else{
+                resolve();
+            }
+        }, (error) => {
+            console.log(error);
+            reject();
+        });
+    });
 };
