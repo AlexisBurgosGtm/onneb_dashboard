@@ -1,4 +1,24 @@
 let funciones = {
+  shareApp:async()=>{
+    const shareData = {
+      title: 'ONNE ADMIN',
+      text: `App para Gerencia`,
+      url: window.location.origin
+    }
+
+    try {
+        await navigator.share(shareData)
+        //resultPara.textContent = 'MDN shared successfully'
+    } catch(err) {
+        alert('No se puede compartir')
+        //resultPara.textContent = 'Error: ' + err
+        console.log('Error al compartir: ' + err);
+    }
+  },
+    convertDateNormal(date) {
+      const [yy, mm, dd] = date.split(/-/g);
+      return `${dd}/${mm}/${yy}`.replace('T00:00:00.000Z', '');
+    },
     GetDataNit: async (idNit,idCliente,idDireccion)=>{
 
       return new Promise((resolve, reject) => {

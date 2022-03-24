@@ -1,3 +1,33 @@
+
+  .bg-amarillo {
+    background-color: beige;
+    font-weight: bold;
+  }
+
+
+  .card-rounded {
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+  }
+  
+  
+.negrita {
+    font-weight: bold;
+};
+
+
+
+.cursormano{
+    cursor: pointer;
+};
+
+.currSign:before {
+    content: 'Q';
+  }
+
+
 @media print{
     .oculto-impresion, .oculto-impresion *{
         display:none !important;

@@ -4,12 +4,38 @@ const execute = require('./connection');
 
 let con;
 
-// LOGIN
+router.post("/listado_anydesk", async(req,res)=>{
+
+	const {} = req.body;
+
+	let qr = `SELECT ID, TOKEN, TIPO, ANYDESK, PASS, VENDEDOR, SUCURSAL FROM SOPORTE_ANYDESK;`
+	execute.Query(res,qr);
+
+});
+
+router.post("/soporte_finalizar", async(req,res)=>{
+
+	const {id} = req.body;
+
+	let qr = `UPDATE SOPORTE_CLIENTES SET ST='FINALIZADO' WHERE ID=${id};`
+	execute.Query(res,qr);
+
+});
+
+router.post("/soporte_respuesta", async(req,res)=>{
+
+	const {id,respuesta} = req.body;
+
+	let qr = `UPDATE SOPORTE_CLIENTES SET RESPUESTA='${respuesta}' WHERE ID=${id};`
+	execute.Query(res,qr);
+
+});
+
 router.post("/soporte", async(req,res)=>{
 
 	const {} = req.body;
 
-	let qr = `SELECT TOKEN, USUARIO, HORA, FECHA, MOTIVO, TELEFONO FROM SOPORTE_CLIENTES WHERE ST='PENDIENTE';`
+	let qr = `SELECT ID,TOKEN, USUARIO, HORA, FECHA, MOTIVO, TELEFONO, isnull(RESPUESTA,'Pendiente') as RESPUESTA FROM SOPORTE_CLIENTES WHERE ST='PENDIENTE' ORDER BY ID;`
 	execute.Query(res,qr);
 
 });

@@ -69,6 +69,15 @@ async function fcnLogin(idUser,idPass,idApp){
 
     if(usuario=='ALEXISBURGOS'){
         if(pass=='2410201415082017'){
+            GlobalUser = 'ALEXIS';
+            classNavegar.programador();        
+            return;
+        }
+    }
+
+    if(usuario=='SOPORTE'){
+        if(pass=='ONNE123'){
+            GlobalUser = 'SOPORTE';
             classNavegar.programador();        
             return;
         }
