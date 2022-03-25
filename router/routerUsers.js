@@ -18,8 +18,8 @@ router.post("/insert_anydesk", async(req,res)=>{
 	const {token,sucursal,tipo,anydesk,pass,vendedor} = req.body;
 
 
-	let qr = `INSERT INTO SOPORTE_ANYDESK (TOKEN,SUCURSAL,TIPO, ANYDESK,PASS) 
-				VALUES ('${token}','${sucursal}','${tipo}','${anydesk}','${pass}');`
+	let qr = `INSERT INTO SOPORTE_ANYDESK (TOKEN,SUCURSAL,TIPO, ANYDESK,PASS,VENDEDOR) 
+				VALUES ('${token}','${sucursal}','${tipo}','${anydesk}','${pass}','${vendedor}');`
 
 	execute.Query(res,qr);
 

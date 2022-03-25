@@ -122,6 +122,16 @@ function getView(){
                             <input type="text" class="form-control" id="txtAnyPass">
                         </div>
 
+                        <div class="form-group">
+                            <label>Vendedor</label>
+                            <select class="form-control" id="cmbAnyVendedor">
+                                <option value="HUGO">HUGO</option>
+                                <option value="RIGO">RIGO</option>
+                                <option value="ALEXIS">ALEXIS</option>
+                                <option value="OTRO">OTRO</option>
+                            </select>
+                        </div>
+
                         <br>
                         <div class="row">
                             <div class="col-6">
@@ -380,6 +390,8 @@ function addListeners(){
         let txtAnyAnydesk = document.getElementById('txtAnyAnydesk');
         let txtAnyPass = document.getElementById('txtAnyPass');
 
+        let cmbAnyVendedor = document.getElementById('cmbAnyVendedor');
+
         funciones.Confirmacion('¿Está seguro que desea Guardar este Nuevo Accesso?')
         .then((value)=>{
             if(value==true){
@@ -387,7 +399,7 @@ function addListeners(){
                 btnAnyGuardar.innerHTML = '<i class="fal fa-save fa-spin"></i>';
                 btnAnyGuardar.disabled = true;
 
-                insert_anydesk(txtAnyToken.value,txtAnySucursal.value,cmbAnyTipo.value,txtAnyAnydesk.value,txtAnyPass.value,GlobalUser)
+                insert_anydesk(txtAnyToken.value,txtAnySucursal.value,cmbAnyTipo.value,txtAnyAnydesk.value,txtAnyPass.value,cmbAnyVendedor.value)
                 .then(()=>{
                     funciones.Aviso('Anydesk Guardar Exitosamente!!');
                     getListadoAnydesk();
