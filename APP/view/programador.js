@@ -26,8 +26,9 @@ function getView(){
                             <tr>
                                 <td>Token</td>
                                 <td>Tipo</td>
-                                <td>Anydesk</td>
-                                <td>Clave</td>
+                                <td>Anydesk/Clave</td>
+                                <td>Vendedor</td>
+                                <td></td>
                             </tr>
                         </thead>
                         <tbody id="tblDataAnydesk"></tbody>
@@ -811,8 +812,10 @@ function getListadoAnydesk(){
                             <small class="negrita">${r.SUCURSAL}</small>
                         </td>
                         <td>${r.TIPO}</td>
-                        <td>${r.ANYDESK}</td>
-                        <td>${r.PASS}</td>
+                        <td>${r.ANYDESK}
+                            <br><small class="negrita">${r.PASS}</small>
+                        </td>
+                        <td>${r.VENDEDOR}</td>
                         <td>
                             <button class="btn btn-circle btn-md btn-danger" id='${idbtnEliminar}' onclick="delete_selected_anydesk('${r.ID}','${idbtnEliminar}')">
                                 <i class="fal fa-trash"></i>
