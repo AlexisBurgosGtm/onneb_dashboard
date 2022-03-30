@@ -20,6 +20,7 @@ function getView(){
             <hr class="solid">
 
             <div class="row">
+                <h3 id="lbTotalEquipos">--</h3>
                 <div class="table-responsive">
                     <table class="table table-responsive" id="tblAnydesk">
                         <thead class="bg-info text-white">
@@ -799,12 +800,17 @@ function getListadoAnydesk(){
     let container = document.getElementById('tblDataAnydesk');
     container.innerHTML = GlobalLoader;
 
+    let lbTotalEquipos = document.getElementById('lbTotalEquipos');
+    lbTotalEquipos.innerText = '--';
+
     let str = '';
-    
+    let totalequipos = 0;
+
     axios.post('/usuarios/listado_anydesk')
     .then((response) => {
         const data = response.data;        
         data.recordset.map((r)=>{
+            totalequipos += 1;
             let idbtnEliminar = `btnEliminarAnydesk${r.ID.toString()}`
             str += `<tr class="border-left-0 border-right-0 border-top-0 border-bottom-info">
                         <td>${r.TOKEN}
@@ -824,8 +830,10 @@ function getListadoAnydesk(){
                     </tr>`
         })
         container.innerHTML = str;
+        lbTotalEquipos.innerText = `Total Equipos: ${totalequipos}` 
     }, (error) => {
         container.innerHTML = error;
+        lbTotalEquipos.innerText = '--'
     });
 
 
