@@ -29,6 +29,7 @@ function getView(){
                                 <td>Tipo</td>
                                 <td>Anydesk/Clave</td>
                                 <td>Vendedor</td>
+                                <td>Actualizado</td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -824,6 +825,7 @@ function getListadoAnydesk(){
                             <br><small class="negrita">${r.PASS}</small>
                         </td>
                         <td>${r.VENDEDOR}</td>
+                        <td>${r.LASTUPDATE}</td>
                         <td>
                             <button class="btn btn-circle btn-md btn-info shadow hand" id='${idbtnAct}' onclick="update_selected_anydesk('${r.ID}','${idbtnAct}')">
                                 <i class="fal fa-edit"></i>
@@ -975,7 +977,7 @@ function update_selected_anydesk(id,idbtn){
 
 function update_anydesk(id){
    
-    let lastupdate = funciones.getDate();
+    let lastupdate = funciones.getFecha();
 
     return new Promise((resolve, reject) => {
         axios.post('/usuarios/update_anydesk', {
