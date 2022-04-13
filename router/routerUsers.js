@@ -13,6 +13,15 @@ router.post("/delete_anydesk", async(req,res)=>{
 
 });
 
+router.post("/update_anydesk", async(req,res)=>{
+
+	const {id,lastupdate} = req.body;
+
+	let qr = `UPDATE SOPORTE_ANYDESK SET LASTUPDATE='${lastupdate}' WHERE ID=${id};`
+	execute.Query(res,qr);
+
+});
+
 router.post("/insert_anydesk", async(req,res)=>{
 
 	const {token,sucursal,tipo,anydesk,pass,vendedor} = req.body;
@@ -29,7 +38,7 @@ router.post("/listado_anydesk", async(req,res)=>{
 
 	const {} = req.body;
 
-	let qr = `SELECT ID, TOKEN, TIPO, ANYDESK, PASS, VENDEDOR, SUCURSAL FROM SOPORTE_ANYDESK;`
+	let qr = `SELECT ID, TOKEN, TIPO, ANYDESK, PASS, VENDEDOR, SUCURSAL, LASTUPDATE FROM SOPORTE_ANYDESK;`
 	execute.Query(res,qr);
 
 });

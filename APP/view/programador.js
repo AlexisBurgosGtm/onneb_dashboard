@@ -30,6 +30,7 @@ function getView(){
                                 <td>Anydesk/Clave</td>
                                 <td>Vendedor</td>
                                 <td></td>
+                                <td></td>
                             </tr>
                         </thead>
                         <tbody id="tblDataAnydesk"></tbody>
@@ -811,7 +812,8 @@ function getListadoAnydesk(){
         const data = response.data;        
         data.recordset.map((r)=>{
             totalequipos += 1;
-            let idbtnEliminar = `btnEliminarAnydesk${r.ID.toString()}`
+            let idbtnEliminar = `btnEliminarAnydesk${r.ID.toString()}`;
+            let idbtnAct = `btnActAnydesk${r.ID.toString()}`;
             str += `<tr class="border-left-0 border-right-0 border-top-0 border-bottom-info">
                         <td>${r.TOKEN}
                             <br>
@@ -823,7 +825,12 @@ function getListadoAnydesk(){
                         </td>
                         <td>${r.VENDEDOR}</td>
                         <td>
-                            <button class="btn btn-circle btn-md btn-danger" id='${idbtnEliminar}' onclick="delete_selected_anydesk('${r.ID}','${idbtnEliminar}')">
+                            <button class="btn btn-circle btn-md btn-info shadow hand" id='${idbtnAct}' onclick="update_selected_anydesk('${r.ID}','${idbtnAct}')">
+                                <i class="fal fa-edit"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-circle btn-md btn-danger shadow hand" id='${idbtnEliminar}' onclick="delete_selected_anydesk('${r.ID}','${idbtnEliminar}')">
                                 <i class="fal fa-trash"></i>
                             </button>
                         </td>
@@ -875,28 +882,41 @@ function delete_selected_anydesk(id,idbtn){
             funciones.Confirmacion('¿Está completamente seguro que desea Eliminar este Acceso?')
             .then((value)=>{
                 if(value==true){
-                    
-                    btnElim.innerHTML = '<i class="fal fa-trash fa-spin"></i>';
-                    btnElim.disabled = true;
 
-                    delete_anydek(id)
-                    .then(()=>{
-                        funciones.Aviso('Acceso eliminado exitosamente!!');
-                        btnElim.innerHTML = '<i class="fal fa-trash"></i>';
-                        btnElim.disabled = false;
+                    funciones.solicitarClave()
+                    .then((name)=>{
 
-                        getListadoAnydesk();
+                        if(name==GlobalConfigP){
 
-                       
+                        }else{
+                            funciones.AvisoError('Clave incorrecta');
+                            return;
+                        };
 
+                        btnElim.innerHTML = '<i class="fal fa-trash fa-spin"></i>';
+                        btnElim.disabled = true;
+    
+                        delete_anydek(id)
+                        .then(()=>{
+                            funciones.Aviso('Acceso eliminado exitosamente!!');
+                            btnElim.innerHTML = '<i class="fal fa-trash"></i>';
+                            btnElim.disabled = false;
+    
+                            getListadoAnydesk();
+    
+                        })
+                        .catch(()=>{
+                            funciones.AvisoError('No se pudo Eliminar este Anydesk');
+    
+                            btnElim.innerHTML = '<i class="fal fa-trash"></i>';
+                            btnElim.disabled = false;
+                        })
                     })
                     .catch(()=>{
-                        funciones.AvisoError('No se pudo Eliminar este Anydesk');
-
-                        btnElim.innerHTML = '<i class="fal fa-trash"></i>';
-                        btnElim.disabled = false;
-
+                        funciones.AvisoError('No se pudo verificar')
                     })
+                    
+            
                     
                 }
             })
@@ -911,6 +931,56 @@ function delete_anydek(id){
     return new Promise((resolve, reject) => {
         axios.post('/usuarios/delete_anydesk', {
             id:id
+        })
+        .then((response) => {
+            const data = response.data;
+            if(Number(data.rowsAffected[0])==0){
+                reject();
+            }else{
+                resolve();
+            }
+        }, (error) => {
+            console.log(error);
+            reject();
+        });
+    });
+};
+
+function update_selected_anydesk(id,idbtn){
+    let btnElim = document.getElementById(idbtn);
+
+    funciones.Confirmacion('¿Está seguro que desea Actualizar la fecha de este Acceso?')
+    .then((value)=>{
+        if(value==true){
+
+            btnElim.innerHTML = '<i class="fal fa-edit fa-spin"></i>';
+            btnElim.disabled = true;
+
+            update_anydesk(id)
+            .then(()=>{
+                    btnElim.innerHTML = '<i class="fal fa-edit"></i>';
+                    btnElim.disabled = false;
+                    getListadoAnydesk();
+            })
+            .catch(()=>{
+                funciones.AvisoError('No se pudo actualizar');
+                btnElim.innerHTML = '<i class="fal fa-edit"></i>';
+                btnElim.disabled = false;
+            })
+        }
+    })
+
+};
+
+
+function update_anydesk(id){
+   
+    let lastupdate = funciones.getDate();
+
+    return new Promise((resolve, reject) => {
+        axios.post('/usuarios/update_anydesk', {
+           id:id,
+           lastupdate:lastupdate
         })
         .then((response) => {
             const data = response.data;
