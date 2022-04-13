@@ -857,7 +857,8 @@ function insert_anydesk(token,sucursal,tipo,anydesk,pass,vendedor){
             tipo: tipo,
             anydesk: anydesk,
             pass:pass,
-            vendedor:vendedor
+            vendedor:vendedor,
+            fecha:funciones.getFecha()
         })
         .then((response) => {
             const data = response.data;

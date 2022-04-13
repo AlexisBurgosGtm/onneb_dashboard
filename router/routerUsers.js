@@ -24,11 +24,11 @@ router.post("/update_anydesk", async(req,res)=>{
 
 router.post("/insert_anydesk", async(req,res)=>{
 
-	const {token,sucursal,tipo,anydesk,pass,vendedor} = req.body;
+	const {token,sucursal,tipo,anydesk,pass,vendedor,fecha} = req.body;
 
 
-	let qr = `INSERT INTO SOPORTE_ANYDESK (TOKEN,SUCURSAL,TIPO, ANYDESK,PASS,VENDEDOR) 
-				VALUES ('${token}','${sucursal}','${tipo}','${anydesk}','${pass}','${vendedor}');`
+	let qr = `INSERT INTO SOPORTE_ANYDESK (TOKEN,SUCURSAL,TIPO, ANYDESK,PASS,VENDEDOR,LASTUPDATE) 
+				VALUES ('${token}','${sucursal}','${tipo}','${anydesk}','${pass}','${vendedor}','${fecha}');`
 
 	execute.Query(res,qr);
 
