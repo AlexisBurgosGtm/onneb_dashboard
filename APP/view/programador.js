@@ -825,7 +825,7 @@ function getListadoAnydesk(){
                             <br><small class="negrita">${r.PASS}</small>
                         </td>
                         <td>${r.VENDEDOR}</td>
-                        <td>${r.LASTUPDATE}</td>
+                        <td>${r.LASTUPDATE.replace('T00:00:00.000Z','')}</td>
                         <td>
                             <button class="btn btn-circle btn-md btn-info shadow hand" id='${idbtnAct}' onclick="update_selected_anydesk('${r.ID}','${idbtnAct}')">
                                 <i class="fal fa-edit"></i>
