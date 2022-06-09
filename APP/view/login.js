@@ -75,7 +75,7 @@ async function fcnLogin(idUser,idPass,idApp){
         }
     }
 
-    if(usuario=='SOPORTE'){
+    if(usuario=='ONNE'){
         if(pass=='ONNE123'){
             GlobalUser = 'SOPORTE';
             classNavegar.programador();        

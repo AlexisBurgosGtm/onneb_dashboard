@@ -3,6 +3,31 @@ let funciones = {
     const [yy, mm, dd] = date.split(/-/g);
     return `${dd}/${mm}/${yy}`.replace('T00:00:00.000Z', '');
   },
+  sendWhatsapp:()=>{
+ 
+    swal({
+      text: 'Enviar mensaje de Whatsapp',
+      content: {
+        element: "input",
+        attributes: {
+          placeholder: "Número con quien chatear..",
+          type: "text",
+        },
+      },
+      button: {
+        text: "Verificar",
+        closeModal: true,
+      },
+    })
+    .then(name => {
+      if (!name) throw null;
+         
+    })
+    .catch(()=>{
+     
+    })
+
+  },
   solicitarClave: function(){
     return new Promise((resolve,reject)=>{
         swal({
@@ -44,10 +69,6 @@ let funciones = {
         console.log('Error al compartir: ' + err);
     }
   },
-    convertDateNormal(date) {
-      const [yy, mm, dd] = date.split(/-/g);
-      return `${dd}/${mm}/${yy}`.replace('T00:00:00.000Z', '');
-    },
     instalationHandlers: (idBtnInstall)=>{
       //INSTALACION APP
       let btnInstalarApp = document.getElementById(idBtnInstall);
