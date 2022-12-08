@@ -120,12 +120,16 @@ router.post("/qryreducedb", async(req,res)=>{
 
 	getConnection(host,timeout);
 
+	let dbs = con.database;
+
 	let qry = `
-	DBCC SHRINKDATABASE (${db},25);
+		USE ${dbs};
+        ALTER DATABASE ${dbs} SET RECOVERY SIMPLE;
+        DBCC SHRINKDATABASE (${dbs},25); 
+        ALTER DATABASE ${dbs} SET RECOVERY FULL;
 	`;
 
-	//console.log(qry);
-
+	
 	const sql2 = require('mssql');
 	try {
 		const pool1 = new sql2.ConnectionPool(con, err => {
@@ -185,7 +189,6 @@ router.post("/qry_usuarios", async(req,res)=>{
 
 
 function getConnection(host,timeout){
-
 	
 	switch (host) {
 		case 'ONNE':
@@ -206,6 +209,15 @@ function getConnection(host,timeout){
 				pool: {	max: 100,	min: 0,	idleTimeoutMillis: timeout}
 			};
 			break;
+		case 'MERCADOSBI':
+			con = {
+					user: 'db_a6478c_mercadosbi_admin',
+					password: 'razors1805',
+					server: 'sql5061.site4now.net',
+					database: 'db_a6478c_mercadosbi',
+					pool: {	max: 100,	min: 0,	idleTimeoutMillis: timeout}
+				};
+				break;
 		case 'LTJ':
 			con = {
 				user: 'DB_A6478C_ltjdistribuidores_admin',
@@ -233,30 +245,6 @@ function getConnection(host,timeout){
 					pool: {	max: 100,	min: 0,	idleTimeoutMillis: timeout}
 				};			
 				break;
-		case 'DAFER':
-					con = {
-						user: 'db_a6478c_dafer_admin',
-						password: 'razors1805',
-						server: 'sql5064.site4now.net',
-						database: 'db_a6478c_dafer',
-						pool: {	max: 100,	min: 0,	idleTimeoutMillis: timeout}
-					};	
-		case 'POPULAR':
-					con = {
-							user: 'DB_A6478C_digitadoresremotos_admin',
-							password: 'razors1805',
-							server: 'sql5068.site4now.net',
-							database: 'DB_A6478C_digitadoresremotos',
-							pool: {	max: 100,	min: 0,	idleTimeoutMillis: timeout}
-					};
-		case 'PENIEL':
-						con = {
-							user: 'db_a6478c_distpeniel_admin',
-							password: 'razors1805',
-							server: 'sql5064.site4now.net',
-							database: 'db_a6478c_distpeniel',
-							pool: {	max: 100,	min: 0,	idleTimeoutMillis: timeout}
-						};	
 	};
 
 };

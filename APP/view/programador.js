@@ -1,305 +1,323 @@
 function getView(){
 
-    let str = `
-    <div class="card card-rounded p-2">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <div class="form-group">
-                        <label>Escriba para Buscar</label>
-                        <input type="text" id="txtBuscarAnydesk" class="form-control" placeholder="Escriba para filtrar...">
+    let view = {
+        body:()=>{
+            return `
+            <div class="col-12 p-0 shadow bg-white card-rounded">
+                <ul class="nav nav-tabs" id="myTabHome" role="tablist">
+                        
+                    <li class="nav-item">
+                        <a class="nav-link active negrita text-danger" id="tab-inicio" data-toggle="tab" href="#inicio" role="tab" aria-controls="home" aria-selected="true">
+                            <i class="fal fa-comments"></i>inicio</a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link negrita text-warning" id="tab-soporte" data-toggle="tab" href="#soporte" role="tab" aria-controls="profile" aria-selected="false">
+                            <i class="fal fa-chart-pie"></i>soporte</a>
+                    </li>    
+                    <li class="nav-item">
+                        <a class="nav-link negrita text-success" id="tab-mantenimiento" data-toggle="tab" href="#mantenimiento" role="tab" aria-controls="profile" aria-selected="false">
+                            <i class="fal fa-chart-pie"></i>mantenimiento</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link negrita text-info" id="tab-vendedores" data-toggle="tab" href="#vendedores" role="tab" aria-controls="home" aria-selected="true">
+                            <i class="fal fa-edit"></i>vendedores</a>
+                    </li>            
+                </ul>
+               <div class="tab-content" id="myTabHomeContent">
+                  
+                   <div class="tab-pane fade  show active" id="inicio" role="tabpanel" aria-labelledby="">
+                       ${view.lista_anydesk() + view.modal_nuevo_anydesk()}
+                   </div>
+                   <div class="tab-pane fade" id="soporte" role="tabpanel" aria-labelledby="">
+                        ${view.lista_soporte() + view.modal_detalle_soporte()}
+                   </div>
+                   <div class="tab-pane fade p-2" id="mantenimiento" role="tabpanel" aria-labelledby="">  
+                        ${view.inicio_mantenimientos()}
+                   </div>
+                   <div class="tab-pane fade" id="vendedores" role="tabpanel" aria-labelledby="">  
+        hola mundo
+                   </div>
+               </div>
+               
+              
+           </div>
+       ` 
+        },
+        lista_anydesk:()=>{
+            return `
+            <div class="card card-rounded p-2">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="form-group">
+                            <label>Escriba para Buscar</label>
+                            <input type="text" id="txtBuscarAnydesk" class="form-control" placeholder="Escriba para filtrar...">
+                        </div>    
                     </div>    
-                </div>    
-                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <button class="btn btn-circle btn-success shadow btn-xl" id="btnNuevoAnydesk">
-                        <i class="fal fa-plus"></i>
-                    </button>
-                </div>    
-            </div>
-            
-            <hr class="solid">
-
-            <div class="row">
-                <h3 id="lbTotalEquipos">--</h3>
-                <div class="table-responsive">
-                    <table class="table table-responsive" id="tblAnydesk">
-                        <thead class="bg-info text-white">
-                            <tr>
-                                <td>Token</td>
-                                <td>Tipo</td>
-                                <td>Anydesk/Clave</td>
-                                <td>Vendedor</td>
-                                <td>Actualizado</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </thead>
-                        <tbody id="tblDataAnydesk"></tbody>
-                    </table>
-                </div>    
-            </div>
-        </div>
-
-    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <button class="btn btn-circle btn-success shadow btn-xl" id="btnNuevoAnydesk">
+                            <i class="fal fa-plus"></i>
+                        </button>
+                    </div>    
+                </div>
+                
+                <hr class="solid">
     
-    <button class="btn btn-secondary btn-circle btn-xl shadow btn-middle hand" id="btnOpciones">
-        <i class="fal fa-cog"></i>
-    </button>
-
-    <button class="btn btn-info btn-circle btn-xl shadow btn-right hand" id="btnSoporte">
-        <i class="fal fa-comments"></i>
-    </button>
-
-    `
-
-    let modalSoporte = `
-            <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalSoporte">
-                <div class="modal-dialog modal-dialog-right modal-lg">
-                    <div class="modal-content">
-                        <div class="dropdown-header bg-trans-gradient d-flex justify-content-center align-items-center w-100">
-                            <h4 class="m-0 text-center color-white">
-                                Lista de Soporte
-                            </h4>
-                            <button type="button" class="close text-white position-absolute pos-top pos-right p-2 m-1 mr-2" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i class="fal fa-times"></i></span>
-                            </button>
-                        </div>
-                        <div class="modal-body p-0">
-                            
-                            <div class="table-responsive">
-                                <table class="table table-responsive">
-                                    <thead class="bg-trans-gradient text-white">
-                                        <tr>
-                                            <td>Token/Fecha</td>
-                                            <td>Motivo</td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tblSoporte">
-                                    
-                                    </tbody>
-                                </table>
-
-                            </div>    
-
-                        </div>
-                    </div>
-                </div>
-            </div> 
-    `
-    let modalNuevoAnydesk = `
-    <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalNuevoAnydesk">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="dropdown-header bg-danger d-flex justify-content-center align-items-center w-100">
-                    <h4 class="m-0 text-center color-white">
-                        Agregar Nuevo Anydesk
-                    </h4>
-                    <button type="button" class="close text-white position-absolute pos-top pos-right p-2 m-1 mr-2" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fal fa-times"></i></span>
-                    </button>
-                </div>
-                <div class="modal-body p-4">
-                   
-                        <div class="form-group">
-                            <label>Token</label>
-                            <input type="text" class="form-control" id="txtAnyToken">
-                        </div>
-                        <div class="form-group">
-                            <label>Tipo</label>
-                            <select class="form-control" id="cmbAnyTipo">
-                                <option value="SERVER">SERVER</option>
-                                <option value="OPER">OPERADOR</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Nombre de la Sucursal</label>
-                            <input type="text" class="form-control" id="txtAnySucursal">
-                        </div>
-                        <div class="form-group">
-                            <label>Acceso Anydesk</label>
-                            <input type="text" class="form-control" id="txtAnyAnydesk">
-                        </div>
-                        <div class="form-group">
-                            <label>Clave</label>
-                            <input type="text" class="form-control" id="txtAnyPass">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Vendedor</label>
-                            <select class="form-control" id="cmbAnyVendedor">
-                                <option value="HUGO">HUGO</option>
-                                <option value="RIGO">RIGO</option>
-                                <option value="ALEXIS">ALEXIS</option>
-                                <option value="OTRO">OTRO</option>
-                            </select>
-                        </div>
-
-                        <br>
-                        <div class="row">
-                            <div class="col-6">
-                                    <button class="btn btn-circle btn-warning hand btn-xl shadow" id="" data-dismiss="modal">
-                                        <i class="fal fa-arrow-left"></i>
-                                    </button>
-                            </div>
-                            <div class="col-6">
-                                    <button class="btn btn-circle btn-primary hand btn-xl shadow" id="btnAnyGuardar">
-                                        <i class="fal fa-save"></i>
-                                    </button>
-                            </div>                        
-                        </div>
-                      
-
+                <div class="row">
+                    <h3 id="lbTotalEquipos">--</h3>
+                    <div class="table-responsive">
+                        <table class="table table-responsive" id="tblAnydesk">
+                            <thead class="bg-info text-white">
+                                <tr>
+                                    <td>Token</td>
+                                    <td>Tipo</td>
+                                    <td>Anydesk/Clave</td>
+                                    <td>Vendedor</td>
+                                    <td>Actualizado</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="tblDataAnydesk"></tbody>
+                        </table>
+                    </div>    
                 </div>
             </div>
+    
         </div>
-    </div> 
-`
-
-    let modalResponderSoporte = `
-            <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalSoporteRespuesta">
-                <div class="modal-dialog modal-dialog-right modal-lg">
-                    <div class="modal-content">
-                        <div class="dropdown-header bg-info d-flex justify-content-center align-items-center w-100">
-                            <h4 class="m-0 text-center color-white">
-                                Respuesta de Soporte Técnico
-                            </h4>
-                            <button type="button" class="close text-white position-absolute pos-top pos-right p-2 m-1 mr-2" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i class="fal fa-times"></i></span>
-                            </button>
-                        </div>
-                        <div class="modal-body p-2 card card-rounded">
+        
+            `
+        },
+        modal_nuevo_anydesk:()=>{
+            return `
+            <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalNuevoAnydesk">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="dropdown-header bg-danger d-flex justify-content-center align-items-center w-100">
+                        <h4 class="m-0 text-center color-white">
+                            Agregar Nuevo Anydesk
+                        </h4>
+                        <button type="button" class="close text-white position-absolute pos-top pos-right p-2 m-1 mr-2" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-4">
+                       
                             <div class="form-group">
-                                <label>Escriba la Respuesta de Soporte</label>
-                                <textarea class="form-control" rows="4" id="txtRespuestaSoporte" value=''>
-                                
-                                </textarea>
+                                <label>Token</label>
+                                <input type="text" class="form-control" id="txtAnyToken">
                             </div>
+                            <div class="form-group">
+                                <label>Tipo</label>
+                                <select class="form-control" id="cmbAnyTipo">
+                                    <option value="SERVER">SERVER</option>
+                                    <option value="OPER">OPERADOR</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Nombre de la Sucursal</label>
+                                <input type="text" class="form-control" id="txtAnySucursal">
+                            </div>
+                            <div class="form-group">
+                                <label>Acceso Anydesk</label>
+                                <input type="text" class="form-control" id="txtAnyAnydesk">
+                            </div>
+                            <div class="form-group">
+                                <label>Clave</label>
+                                <input type="text" class="form-control" id="txtAnyPass">
+                            </div>
+    
+                            <div class="form-group">
+                                <label>Vendedor</label>
+                                <select class="form-control" id="cmbAnyVendedor">
+                                    <option value="HUGO">HUGO</option>
+                                    <option value="RIGO">RIGO</option>
+                                    <option value="ALEXIS">ALEXIS</option>
+                                    <option value="OTRO">OTRO</option>
+                                </select>
+                            </div>
+    
+                            <br>
                             <div class="row">
                                 <div class="col-6">
-                                        <button class="btn btn-warning btn-circle shadow btn-xl hand" data-dismiss="modal">
+                                        <button class="btn btn-circle btn-warning hand btn-xl shadow" id="" data-dismiss="modal">
                                             <i class="fal fa-arrow-left"></i>
                                         </button>
                                 </div>
-                                
-
                                 <div class="col-6">
-                                        <button class="btn btn-primary btn-circle shadow btn-xl hand" id="btnEnviarRespuesta" onclick="sendRespuestaSoporte();">
-                                            <i class="fal fa-paper-plane"></i>
+                                        <button class="btn btn-circle btn-primary hand btn-xl shadow" id="btnAnyGuardar">
+                                            <i class="fal fa-save"></i>
                                         </button>
-                                </div>
+                                </div>                        
+                            </div>
+                          
+    
+                    </div>
+                </div>
+            </div>
+        </div> 
+            `
+        },
+        lista_soporte:()=>{
+            return `
+            <h4 class="">Lista de Solicitudes de Soporte</h4>
+            <div class="table-responsive">
+                <table class="table table-responsive">
+                    <thead class="bg-trans-gradient text-white">
+                        <tr>
+                            <td>Token/Fecha</td>
+                            <td>Motivo</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody id="tblSoporte">
+                    
+                    </tbody>
+                </table>
+
+            </div>    
+            `
+        },
+        modal_detalle_soporte:()=>{
+            return `
+            <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalSoporteRespuesta">
+            <div class="modal-dialog modal-dialog-right modal-lg">
+                <div class="modal-content">
+                    <div class="dropdown-header bg-info d-flex justify-content-center align-items-center w-100">
+                        <h4 class="m-0 text-center color-white">
+                            Respuesta de Soporte Técnico
+                        </h4>
+                        <button type="button" class="close text-white position-absolute pos-top pos-right p-2 m-1 mr-2" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-2 card card-rounded">
+                        <div class="form-group">
+                            <label>Escriba la Respuesta de Soporte</label>
+                            <textarea class="form-control" rows="4" id="txtRespuestaSoporte" value=''>
+                            
+                            </textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                    <button class="btn btn-warning btn-circle shadow btn-xl hand" data-dismiss="modal">
+                                        <i class="fal fa-arrow-left"></i>
+                                    </button>
+                            </div>
+                            
+
+                            <div class="col-6">
+                                    <button class="btn btn-primary btn-circle shadow btn-xl hand" id="btnEnviarRespuesta" onclick="sendRespuestaSoporte();">
+                                        <i class="fal fa-paper-plane"></i>
+                                    </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div> 
-    `
+            </div>
+        </div> 
+            `
+        },
+        inicio_mantenimientos:()=>{
+            return `
+        <br>
+        <div class="card card-rounded shadow">
+            <div class="card-body">
 
-    let modalOpciones = `
-            <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalOpciones">
-                <div class="modal-dialog modal-dialog-right modal-lg">
-                    <div class="modal-content">
-                        <div class="dropdown-header bg-trans-gradient d-flex justify-content-center align-items-center w-100">
-                            <h4 class="m-0 text-center color-white">
-                                Opciones de Soporte
-                            </h4>
-                            <button type="button" class="close text-white position-absolute pos-top pos-right p-2 m-1 mr-2" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                <div class="row">
+                    <div class="col-6">       
+                            <select class="form-control" id="cmbHost">
+                                <option value="ONNE">ONNE BUSINESS</option>
+                                <option value="MERCADOS">MERCADOS EFECTIVOS</option>
+                                <option value="MERCADOSBI">BI MERCADOS EFECTIVOS</option>
+                                <option value="LTJ">LTJ DISTRIBUIDORES</option>
+                                <option value="FARMASALUD">FARMASALUD</option>
+                                <option value="DISTRIBUIDORAS">DISTRIBUIDORAS GENERAL</option>
+                            </select>
+                    </div>
+                    <div class="col-3">
+                        <input type="number" id="txtTimeout" value="3000">
+                    </div>
+                    <div class="col-3">
+                            <button class="btn btn-md btn-danger" id="btnqry">
+                                <i class="fal fa-bullet"></i>
+                                Run
                             </button>
-                        </div>
-                        <div class="modal-body p-0">
-
-                            <div class="row">
-                                <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-                                    <button class="btn btn-success" id="btnLog">
-                                    
-                                        Log
-                                    </button>
-                                </div>
-                        
-                                <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-                                    <button class="btn btn-warning" id="btnIndex">
-                                    
-                                        Indexar
-                                    </button>
-                                </div>       
-                                <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-                                    <button class="btn btn-danger" id="btnReduce">
-                                    
-                                        Reducir
-                                    </button>
-                                </div>
-                                <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-                                    <button class="btn btn-secondary" id="btnSize">
-                                    
-                                        Tamaño
-                                    </button>
-                                </div>   
-                                <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-                                    <button class="btn btn-outline-info" id="btnGetUsuarios">
-                                        <i class="fal fa-user"></i>
-                                        Usuarios
-                                    </button>
-                                </div>       
-                        
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    
-                                        <select class="form-control" id="cmbHost">
-                                            <option value="ONNE">ONNE BUSINESS</option>
-                                            <option value="MERCADOS">MERCADOS EFECTIVOS</option>
-                                            <option value="LTJ">LTJ DISTRIBUIDORES</option>
-                                            <option value="DAFER">DAFER</option>
-                                            <option value="POPULAR">DIST POPULAR</option>
-                                            <option value="PENIEL">DIST PENIEL</option>
-                                            <option value="FARMASALUD">FARMASALUD</option>
-                                            <option value="DISTRIBUIDORAS">DISTRIBUIDORAS</option>
-                                        </select>
-                                    
-                                </div>
-                                <div class="col-3">
-                                    <input type="number" id="txtTimeout" value="3000">
-                                </div>
-                                <div class="col-3">
-                                        <button class="btn btn-md btn-danger" id="btnqry">
-                                            <i class="fal fa-bullet"></i>
-                                            Run
-                                        </button>
-                                </div>
-                            </div>
-                            <br>
-                            
-                            
-                            <br><br><br>
-
-                            <div class="row">
-                                <div class="card shadow">
-                                    <textarea class="form-control" id="txtqry"  rows="4" cols="50">
-                                    
-
-                                    </textarea>
-                                </div>
-                            </div>
-
-                            <div class="row">        
-                                <div class="card shadow" id="txtContainer">
-
-
-                                </div>    
-                            </div>
-                            
-                        
-                            
-                        </div>
-
                     </div>
                 </div>
-            </div> 
-    `;
-    root.innerHTML = str + modalNuevoAnydesk + modalSoporte + modalOpciones + modalResponderSoporte;
+
+            </div>
+        </div>
+        
+        <hr class="solid">
+
+        <div class="card card-rounded shadow">
+            <div class="card-body">
+        
+                <div class="row">
+                    <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
+                        <button class="btn btn-success" id="btnLog">
+                            Reducir Log
+                        </button>
+                    </div>
+                    <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
+                        <button class="btn btn-warning" id="btnIndex">
+                            Indexar Tabla
+                        </button>
+                    </div>       
+                    <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
+                        <button class="btn btn-danger" id="btnReduce">
+                        
+                            Reducir
+                        </button>
+                    </div>
+                    <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
+                        <button class="btn btn-secondary" id="btnSize">
+                        
+                            Tamaño
+                        </button>
+                    </div>   
+                    <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
+                        <button class="btn btn-outline-info" id="btnGetUsuarios">
+                            <i class="fal fa-user"></i>
+                            Usuarios
+                        </button>
+                    </div>       
+                </div>
+
+            </div>
+        </div>
+        
+        <br>
+
+        <div class="card card-rounded shadow">
+            <div class="card-body">
+                <div class="text-info negrita" id="txtContainer">
+
+
+                </div>        
+            </div>
+        </div>
+
+        <br>
+
+        <div class="card card-rounded shadow">
+            <div class="card-body">
+                <h5 class="text-danger negrita">Escribe la Qry:</h5>
+                <textarea class="form-control bg-amarillo border-info" id="txtqry"  rows="4" cols="50"></textarea>
+                        
+            </div>
+        </div>      
+            `
+        }
+
+    };
+
+  
+
+
+    root.innerHTML = view.body();
 
 };
 
@@ -352,23 +370,10 @@ function addListeners(){
     })
 
 
-    let btnSoporte = document.getElementById('btnSoporte');
-    btnSoporte.addEventListener('click',()=>{
-        $('#modalSoporte').modal('show');
-        getListaSoporte();
-    });
+  
 
-    let btnOpciones = document.getElementById('btnOpciones');
-    btnOpciones.addEventListener('click',()=>{
-        
-        $('#modalOpciones').modal('show');
-    });
 
-    if(GlobalUser=='SOPORTE'){
-        btnOpciones.style = "visibility:hidden";
-    }else{
-        btnOpciones.style = "visibility:visible";
-    };
+    
 
 
     //  anydesk
@@ -556,7 +561,7 @@ function fcn_reduceLog(){
 
 };
 
-function fcn_indexDb(){
+function BACKUP_fcn_indexDb(){
 
    
     let cmbHost = document.getElementById('cmbHost');
@@ -594,6 +599,44 @@ function fcn_indexDb(){
 
 };
 
+function fcn_indexDb(){
+
+   
+    let cmbHost = document.getElementById('cmbHost');
+    let timeout = document.getElementById('txtTimeout').value;
+
+    let qry = `
+    DECLARE @TableName varchar(200);
+    SET @TableName = '${document.getElementById('txtqry').value}';
+    DBCC DBREINDEX (@TableName);
+    `;
+
+    let txtContainer = document.getElementById('txtContainer');
+    txtContainer.innerHTML = GlobalLoader;
+
+    axios.post('/usuarios/qry', {
+        host: cmbHost.value,
+        timeout: Number(timeout),
+        qry:qry
+    })
+    .then((response) => {
+        const data = response.data;
+        let msn = 'hola';
+        
+        console.log(data.rowsAffected[0]);
+
+        msn = 'Filas Afectadas: ' + data.rowsAffected[0];
+        //data.map((r)=>{
+            //console.log(r);
+            //msn += 'Filas Afectadas: ' + r.rowsAffected.toString()
+        //})
+        txtContainer.innerHTML = msn;
+    }, (error) => {
+        txtContainer.innerHTML = error;
+    });
+
+};
+
 function fcn_SizeDb(){
 
    
@@ -611,10 +654,13 @@ function fcn_SizeDb(){
         qry:qry
     })
     .then((response) => {
-        const data = JSON.stringify(response);
-        //response.map(()=>{})
-        console.log(response);
-        txtContainer.innerHTML = JSON.stringify(response.data.recordset[0]);
+        const data = response.data;
+        let msn = '';
+        data.recordset.map((r)=>{
+            msn += `Tamaño: ${r.database_size}, Db: ${r.database_name}; ` 
+        })
+        
+        txtContainer.innerHTML = msn;  //JSON.stringify(response.data.recordset[0]);
     }, (error) => {
         txtContainer.innerHTML = error;
     });

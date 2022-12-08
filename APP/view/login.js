@@ -2,7 +2,7 @@ function getView(){
     let strview = `
         <div class="blankpage-form-field" id="panel1">
         
-            <div class="card p-4 border-top-left-radius-0 border-top-right-radius-0 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <div class="card p-4 card-rounded shadow col-sm-12 col-md-4 col-lg-4 col-xl-4">
                 <div>
                     <div class="form-group" align="center">
                         <img src="./favicon.png" alt="" width="100" height="100">
