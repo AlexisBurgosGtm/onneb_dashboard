@@ -208,12 +208,14 @@ let funciones = {
           document.getElementById(idContainer).appendChild(link)
         });
     },
-    fetchData: (url)=>{
-        fetch(url)
-            .then(function(response) {
-                return response.json();
-                                    })
-            .catch();
+    pingUrl: (url)=>{
+              axios.get(url)
+              .then((response) => {
+                  const data = response.data;
+                  console.log(data);   
+              }, (error) => {
+                  console.log(error);
+              });
     },
     loadView: (url, idContainer)=> {
         return new Promise((resolve, reject) => {

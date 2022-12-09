@@ -45,13 +45,24 @@ app.get("/",function(req,res){
 }); 
 
 
-app.get("/noticias",function(req,res){
+app.get("/pingurl",function(req,res){
   
-  const {token, empnit} = req.query;
+  const {url} = req.query;
 
-  res.sendFile(path + 'app/index.html');
+  axios.get(url)
+              .then((response) => {
+                  const data = response.data;
+                  
+                  console.log(data);
+
+                 
+              }, (error) => {
+                  console.log(error);
+                 
+              });
   
 }); 
+
 
 
 

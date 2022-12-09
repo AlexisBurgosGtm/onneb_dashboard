@@ -20,7 +20,7 @@ function getView(){
                     </li>
                     <li class="nav-item">
                         <a class="nav-link negrita text-info" id="tab-vendedores" data-toggle="tab" href="#vendedores" role="tab" aria-controls="home" aria-selected="true">
-                            <i class="fal fa-edit"></i>vendedores</a>
+                            <i class="fal fa-edit"></i>Links</a>
                     </li>            
                 </ul>
                <div class="tab-content" id="myTabHomeContent">
@@ -32,10 +32,10 @@ function getView(){
                         ${view.lista_soporte() + view.modal_detalle_soporte()}
                    </div>
                    <div class="tab-pane fade p-2" id="mantenimiento" role="tabpanel" aria-labelledby="">  
-                        ${view.inicio_mantenimientos()}
+                        ${view.inicio_mantenimientos() + view.modal_edit_usuario()}
                    </div>
                    <div class="tab-pane fade" id="vendedores" role="tabpanel" aria-labelledby="">  
-        hola mundo
+                        ${view.links()}
                    </div>
                </div>
                
@@ -253,42 +253,37 @@ function getView(){
         <hr class="solid">
 
         <div class="card card-rounded shadow">
-            <div class="card-body">
+            <div class="card-body p-2">
         
-                <div class="row">
-                    <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-                        <button class="btn btn-success" id="btnLog">
-                            Reducir Log
+                <div class="container">
+                    <div class="row justify-content-between">
+                    
+                        <button class="btn btn-secondary btn-xl btn-circle shadow" id="btnSize">
+                            <small>Siz</small>                        
                         </button>
-                    </div>
-                    <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-                        <button class="btn btn-warning" id="btnIndex">
-                            Indexar Tabla
-                        </button>
-                    </div>       
-                    <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-                        <button class="btn btn-danger" id="btnReduce">
-                        
-                            Reducir
-                        </button>
-                    </div>
-                    <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-                        <button class="btn btn-secondary" id="btnSize">
-                        
-                            Tamaño
-                        </button>
-                    </div>   
-                    <div class="col-lg-2 col-xl-2 col-md-4 col-sm-4">
-                        <button class="btn btn-outline-info" id="btnGetUsuarios">
+                
+                        <button class="btn btn-outline-info btn-xl btn-circle shadow" id="btnGetUsuarios">
                             <i class="fal fa-user"></i>
-                            Usuarios
                         </button>
+                        
+                        <button class="btn btn-success btn-xl btn-circle shadow" id="btnLog">
+                            <small>Log</small>
+                        </button>
+                       
+                        <button class="btn btn-warning btn-xl btn-circle shadow" id="btnIndex">
+                            <small>inX</small>
+                        </button>
+                       
+                        <button class="btn btn-danger btn-xl btn-circle shadow" id="btnReduce">
+                            <small>RdD</small>                           
+                        </button>                      
+
                     </div>       
                 </div>
 
             </div>
         </div>
-        
+                    
         <br>
 
         <div class="card card-rounded shadow">
@@ -310,8 +305,86 @@ function getView(){
             </div>
         </div>      
             `
-        }
+        },
+        modal_edit_usuario:()=>{
+            return `
+        <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalUsuario">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="dropdown-header bg-danger d-flex justify-content-center align-items-center w-100">
+                        <h4 class="m-0 text-center color-white">
+                            Agregar Nuevo Anydesk
+                        </h4>
+                        <button type="button" class="close text-white position-absolute pos-top pos-right p-2 m-1 mr-2" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-4">
+                       
+                            <div class="form-group">
+                                <label class="negrita">Código Sucursal:</label>
+                                <input type="text" class="form-control negrita text-danger" id="txtSucursal" disabled="true">
+                            </div>
 
+                            <div class="form-group">
+                                <label class="negrita">Usuario:</label>
+                                <input type="text" class="form-control" id="txtUsuario">
+                            </div>
+                            <div class="form-group">
+                                <label class="negrita">Clave:</label>
+                                <input type="text" class="form-control" id="txtClave">
+                            </div>
+                           
+                            <br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="negrita">Coddoc:</label>
+                                        <input type="text" class="form-control" id="txtCoddoc">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="negrita">Correlativo:</label>
+                                        <input type="number" class="form-control" id="txtCorrelativo">
+                                    </div>
+                                </div>
+                            </div>
+                                                     
+    
+                            <br>
+                            <div class="row">
+                                <div class="col-6">
+                                        <button class="btn btn-circle btn-warning hand btn-xl shadow" id="" data-dismiss="modal">
+                                            <i class="fal fa-arrow-left"></i>
+                                        </button>
+                                </div>
+                                <div class="col-6">
+                                        <button class="btn btn-circle btn-primary hand btn-xl shadow" id="btnActualizaarUsuario">
+                                            <i class="fal fa-save"></i>
+                                        </button>
+                                </div>                        
+                            </div>
+                          
+    
+                    </div>
+                </div>
+            </div>
+        </div> 
+            `
+        },
+        links:()=>{
+            return `
+                
+                <hr class="solid">
+                <h5 class="negrita text-danger">Link para comprobación</h5>
+                <hr class="solid">
+                
+                <div class="row" id="containerUrls">
+                
+                </div>
+            `
+        }
     };
 
   
@@ -336,24 +409,43 @@ function addListeners(){
 
         
     btnSize.addEventListener('click',()=>{
+
         fcn_SizeDb();
     });
 
     btnReduce.addEventListener('click',()=>{
-        fcn_reduceDb();
+        funciones.Confirmacion('¿Está seguro que desea REDUCIR LA BASE DE DATOS?')
+        .then((value)=>{
+            if(value==true){
+                fcn_reduceDb();
+            }
+        })
+        
     });
     
 
     btnLog.addEventListener('click',()=>{
-        fcn_reduceLog();
+        funciones.Confirmacion('¿Está seguro que desea reducir el log?')
+        .then((value)=>{
+            if(value==true){
+                fcn_reduceLog();
+            }
+        })
+        
     });
     
     btnIndex.addEventListener('click',()=>{
-        fcn_indexDb();
+         funciones.Confirmacion('¿Está seguro que desea indexar la tabla?')
+        .then((value)=>{
+            if(value==true){
+                fcn_indexDb();
+            }
+        })
+       
     });
 
     btnqry.addEventListener('click',()=>{
-        funciones.Confirmacion('Ejecutar ?')
+        funciones.Confirmacion('Ejecutar la query?')
         .then((value)=>{
             if(value==true){
 
@@ -435,6 +527,40 @@ function addListeners(){
     });
 
     getListadoAnydesk();
+
+
+    let btnActualizaarUsuario = document.getElementById('btnActualizaarUsuario');
+    btnActualizaarUsuario.addEventListener('click',()=>{
+        funciones.Confirmacion('¿Está seguro que desea Actualizar los datos del Usuario?')
+        .then((value)=>{
+            if(value==true){
+                let codsucursal = document.getElementById('txtSucursal').value;
+                let usuario = document.getElementById('txtUsuario').value;
+                let pass = document.getElementById('txtClave').value;
+                let coddoc = document.getElementById('txtCoddoc').value;
+                let correlativo = document.getElementById('txtCorrelativo').value;
+
+                update_usuario(usuario,pass,coddoc,correlativo,codsucursal)
+                .then(()=>{
+                    $("#modalUsuario").modal('hide');
+                    funciones.Aviso('Usuario actualizado exitosamente!!');
+                    fcn_getUsuarios();
+                })
+                .catch(()=>{
+                    funciones.AvisoError('No se pudo actualizar');
+                })
+
+
+            }
+        })
+    });
+
+
+
+
+    getUrls();
+
+
 };
 
 
@@ -443,6 +569,18 @@ function iniciar(){
     addListeners();
 };
 
+
+function getUrls(){
+
+    let container = document.getElementById('containerUrls');
+    
+    let url = ``
+    URLS.map((r)=>{
+        url += `<li><a class="negrita" href="${r.link}" target="_blank">${r.empresa}</a></li>
+                    `
+    });
+    container.innerHTML = '<ul>' + url + '</ul>';
+}
 
 function runQuery(){
 
@@ -706,7 +844,7 @@ function fcn_getUsuarios(){
                         <small class="negrita text-danger">${r.CODSUCURSAL}</small>                    
                     </td>
                     <td>
-                        <button class="btn btn-md btn-circle btn-info hand shadow" onclick="getDataUsuario('${r.CODDOC}')">
+                        <button class="btn btn-md btn-circle btn-info hand shadow" onclick="getDataUsuario('${r.ID}','${r.NOMBRE}','${r.PASS}','${r.CODDOC}','${r.CORRELATIVO}','${r.CODSUCURSAL}')">
                             <i class="fal fa-edit"></i>
                         </button>
                     </td>
@@ -714,7 +852,13 @@ function fcn_getUsuarios(){
             `
         })
 
-        let table = `<table class="table table-responsive">
+        let table = `
+                    <div class="form-group">
+                        <label>Escriba para buscar:</label>
+                        <input type="text" class="form-control bg-amarillo negrita" id="txtFiltrarUsuarios" placeholder="Escriba para buscar..." />
+                    </div>
+                    <br>
+                    <table class="table table-responsive" id="tblUsuarios">
                         <thead class="bg-info text-white">
                             <tr>
                                 <td>Usuario</td>
@@ -725,13 +869,30 @@ function fcn_getUsuarios(){
                         <tbody>${st}</tbody>
                     </table>`
         txtContainer.innerHTML = table;
+
+        document.getElementById('txtFiltrarUsuarios').addEventListener('keyup',()=>{
+            funciones.FiltrarTabla('tblUsuarios','txtFiltrarUsuarios');
+        })
+
     }, (error) => {
         txtContainer.innerHTML = error;
     });
 
 };
 
-function getDataUsuario(coddoc){
+function getDataUsuario(idus,usuario,pass,coddoc,correlativo,codsucursal){
+
+
+        GlobalSelectedId = Number(idus);
+
+        document.getElementById('txtSucursal').value = codsucursal;
+        document.getElementById('txtUsuario').value = usuario;
+        document.getElementById('txtClave').value = pass;
+        document.getElementById('txtCoddoc').value = coddoc;
+        document.getElementById('txtCorrelativo').value = correlativo;
+
+        $("#modalUsuario").modal('show');
+
 
 };
 
@@ -1043,4 +1204,35 @@ function update_anydesk(id){
             reject();
         });
     });
+};
+
+
+
+function update_usuario(usuario,pass,coddoc,correlativo,codsucursal){
+   
+    let cmbHost = document.getElementById('cmbHost').value;
+
+    return new Promise((resolve, reject) => {
+        axios.post('/usuarios/update_usuario', {
+            host: cmbHost,
+            codsucursal:codsucursal,
+            id:GlobalSelectedId,
+            usuario:usuario,
+            pass:pass,
+            coddoc:coddoc,
+            correlativo:correlativo
+        }) 
+        .then((response) => {
+            const data = response.data;
+            if(Number(data.rowsAffected[0])==0){
+                reject();
+            }else{
+                resolve();
+            }
+        }, (error) => {
+            console.log(error);
+            reject();
+        });
+    });
+
 };

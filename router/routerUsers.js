@@ -187,6 +187,46 @@ router.post("/qry_usuarios", async(req,res)=>{
 
 });
 
+router.post("/update_usuario", async(req,res)=>{
+	
+	const {host, id, usuario, pass, coddoc, correlativo, codsucursal} = req.body;
+	
+	let qry = `
+		UPDATE ME_USUARIOS SET
+			NOMBRE='${usuario}',
+			PASS='${pass}',
+			CODDOC='${coddoc}',
+			CORRELATIVO=${correlativo}
+			WHERE ID=${id};
+		UPDATE ME_TIPODOCUMENTOS SET CORRELATIVO=${correlativo} WHERE CODSUCURSAL='${codsucursal}' AND CODDOC='${coddoc}';
+	`
+
+	getConnection(host,0);
+	
+	
+	const sql2 = require('mssql');
+	try {
+		const pool1 = new sql2.ConnectionPool(con, err => {
+		  new sql2.Request(pool1)
+		  .query(qry, (err, result) => {
+			  if(err){
+				  res.send(err.message)
+			  }else{
+				  res.send(result);
+			  }					
+		  })
+		  sql2.close();  
+		})
+		pool1.on('error', err => {
+			console.log('error sql = ' + err);
+			sql2.close();
+		})
+	  } catch (error) {
+		res.send('Error al ejecutar la consulta: ' + error)   
+	  };
+
+});
+
 
 function getConnection(host,timeout){
 	
