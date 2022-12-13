@@ -34,13 +34,19 @@ router.use(function (req,res,next) {
         // Set to true if you need the website to include cookies in the requests sent
       res.setHeader('Access-Control-Allow-Credentials', true);
 */
-  console.log("/" + req.toString());
+  //console.log("/" + req.toString());
   next();
 });
 
 app.get("/",function(req,res){
   execute.start();
   res.sendFile(path + 'index.html');
+  
+}); 
+
+app.get("/test_service",function(req,res){
+  
+  res.send('ONLINE');
   
 }); 
 

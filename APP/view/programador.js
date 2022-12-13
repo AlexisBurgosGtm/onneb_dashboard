@@ -574,12 +574,14 @@ function getUrls(){
 
     let container = document.getElementById('containerUrls');
     
-    let url = ``
+    let url = ``; let urltest = '';
     URLS.map((r)=>{
         url += `<li><a class="negrita" href="${r.link}" target="_blank">${r.empresa}</a></li>
-                    `
+                    `;
+        urltest += `<li><a class="negrita" href="${r.test}" target="_blank">${r.empresa}</a></li>
+                    `;
     });
-    container.innerHTML = '<ul>' + url + '</ul>';
+    container.innerHTML = 'Links en servicio: <ul>' + url + '</ul>' + '<hr class="soli"> Links testing: <ul>' + urltest + '</ul>';
 }
 
 function runQuery(){
