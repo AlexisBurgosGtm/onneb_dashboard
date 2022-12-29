@@ -2,7 +2,7 @@ function getView(){
     let strview = `
         <div class="blankpage-form-field" id="panel1">
         
-            <div class="card p-4 card-rounded shadow col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <div class="card p-4 card-rounded shadow col-sm-12 col-md-4 col-lg-4 col-xl-4 border-primary">
                 <div>
                     <div class="form-group" align="center">
                         <img src="./favicon.png" alt="" width="100" height="100">
@@ -21,27 +21,28 @@ function getView(){
                         -->
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="username">Usuario</label>
+                        <label class="form-label text-primary" for="username">Usuario</label>
                         <input type="text"  id="txtUsuario" class="form-control" placeholder="ej: admin">
                         <span class="help-block">
                             Su usuario
                         </span>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="password">Contraseña</label>
+                        <label class="form-label text-primary" for="password">Contraseña</label>
                         <input type="password"  id="txtPass" class="form-control" placeholder="password">
                         <span class="help-block">
                             Su contraseña
                         </span>
                     </div>
                     
-                    <button class="btn btn-primary btn-lg float-right" id="btnIniciar" >
+                    <button class="btn btn-primary btn-xl btn-circle shadow hand float-right" id="btnIniciar" >
                         <i class="fal fa-lock"></i>
-                        Iniciar
+                        
                     </button>
         
                 </div>
             </div>
+            <small class="negrita text-danger">v 12.2022.r29.1</small>
         </div>
         `
 
@@ -55,8 +56,10 @@ function InicializarLogin(){
 
     //funciones.loadCss('./css/page-login.css','root');
     btnIniciar.addEventListener('click',()=>{
-        document.getElementById('btnIniciar').innerHTML = GlobalLoader + 'Ingresando...';
         
+        document.getElementById('btnIniciar').innerHTML = '<i class="fal fa-unlock fa-spin"></i>';
+        document.getElementById('btnIniciar').disabled = true;
+
         fcnLogin('txtUsuario','txtPass','cmbApp')
     });
 
@@ -92,7 +95,11 @@ async function fcnLogin(idUser,idPass,idApp){
         const data = response.data;
         if(Number(data.rowsAffected[0])==0){
             funciones.AvisoError('Usuario y/o contraseña incorrectas');
-            document.getElementById('btnIniciar').innerHTML = `<i class="fal fa-lock"></i>Iniciar`;
+            
+            document.getElementById('btnIniciar').innerHTML = '<i class="fal fa-lock"></i>';
+            document.getElementById('btnIniciar').disabled = false;
+    
+
             return;
         }
         data.recordset.map((rows)=>{
@@ -103,14 +110,18 @@ async function fcnLogin(idUser,idPass,idApp){
                 fcnIniciar(App);
             }else{
                 funciones.AvisoError('Usuario y/o contraseña incorrectas')    
-                document.getElementById('btnIniciar').innerHTML = `<i class="fal fa-lock"></i>Iniciar`;
+                document.getElementById('btnIniciar').innerHTML = '<i class="fal fa-lock"></i>';
+                document.getElementById('btnIniciar').disabled = false;
+    
             }
         })
  
     }, (error) => {
         console.log(error);
         funciones.AvisoError('Usuario y/o contraseña incorrectas')
-        document.getElementById('btnIniciar').innerHTML = `<i class="fal fa-lock"></i>Iniciar`;
+        document.getElementById('btnIniciar').innerHTML = '<i class="fal fa-lock"></i>';
+        document.getElementById('btnIniciar').disabled = false;
+
     });
 
 }

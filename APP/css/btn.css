@@ -167,6 +167,10 @@ bottom: 15px;
     left:-1000px;
 }
 
+.hidden {
+   visibility: hidden; 
+}
+
 /* FIN DIV LATERAL QUE APARECE */
 
 

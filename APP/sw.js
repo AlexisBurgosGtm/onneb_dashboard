@@ -1,5 +1,5 @@
 
-var CACHE = 'onnebusiness';
+var CACHE = 'onnebusiness2';
 const staticAssets = [
   './',
   './manifest.json',
@@ -16,7 +16,9 @@ self.addEventListener('install', function(evt) {
 });
 
 self.addEventListener('fetch', function(evt) {
-  
+
+  return;
+
   var req = evt.request.clone();
   if (navigator.onLine){
     if (req.clone().method == "GET") {

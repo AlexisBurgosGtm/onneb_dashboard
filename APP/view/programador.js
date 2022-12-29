@@ -4,25 +4,7 @@ function getView(){
         body:()=>{
             return `
             <div class="col-12 p-0 shadow bg-white card-rounded">
-                <ul class="nav nav-tabs" id="myTabHome" role="tablist">
-                        
-                    <li class="nav-item">
-                        <a class="nav-link active negrita text-danger" id="tab-inicio" data-toggle="tab" href="#inicio" role="tab" aria-controls="home" aria-selected="true">
-                            <i class="fal fa-comments"></i>inicio</a>
-                    </li> 
-                    <li class="nav-item">
-                        <a class="nav-link negrita text-warning" id="tab-soporte" data-toggle="tab" href="#soporte" role="tab" aria-controls="profile" aria-selected="false">
-                            <i class="fal fa-chart-pie"></i>soporte</a>
-                    </li>    
-                    <li class="nav-item">
-                        <a class="nav-link negrita text-success" id="tab-mantenimiento" data-toggle="tab" href="#mantenimiento" role="tab" aria-controls="profile" aria-selected="false">
-                            <i class="fal fa-chart-pie"></i>mantenimiento</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link negrita text-info" id="tab-vendedores" data-toggle="tab" href="#vendedores" role="tab" aria-controls="home" aria-selected="true">
-                            <i class="fal fa-edit"></i>Links</a>
-                    </li>            
-                </ul>
+               
                <div class="tab-content" id="myTabHomeContent">
                   
                    <div class="tab-pane fade  show active" id="inicio" role="tabpanel" aria-labelledby="">
@@ -34,12 +16,45 @@ function getView(){
                    <div class="tab-pane fade p-2" id="mantenimiento" role="tabpanel" aria-labelledby="">  
                         ${view.inicio_mantenimientos() + view.modal_edit_usuario()}
                    </div>
-                   <div class="tab-pane fade" id="vendedores" role="tabpanel" aria-labelledby="">  
+                   <div class="tab-pane fade" id="links" role="tabpanel" aria-labelledby="">  
                         ${view.links()}
                    </div>
                </div>
                
+               <ul class="nav nav-tabs hidden" id="myTabHome" role="tablist">         
+                    <li class="nav-item">
+                        <a class="nav-link active negrita text-danger" id="tab-inicio" data-toggle="tab" href="#inicio" role="tab" aria-controls="home" aria-selected="true">
+                            <i class="fal fa-list"></i>inicio</a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link negrita text-warning" id="tab-soporte" data-toggle="tab" href="#soporte" role="tab" aria-controls="profile" aria-selected="false">
+                            <i class="fal fa-chart-pie"></i>soporte</a>
+                    </li>    
+                    <li class="nav-item">
+                        <a class="nav-link negrita text-success" id="tab-mantenimiento" data-toggle="tab" href="#mantenimiento" role="tab" aria-controls="profile" aria-selected="false">
+                            <i class="fal fa-chart-pie"></i>mantenimiento</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link negrita text-info" id="tab-links" data-toggle="tab" href="#links" role="tab" aria-controls="home" aria-selected="true">
+                            <i class="fal fa-edit"></i>Links</a>
+                    </li>            
+                </ul>
+
               
+           </div>
+           <div class="btn-right">
+                <button class="btn btn-lg btn-circle btn-info hand shadow" onclick="document.getElementById('tab-inicio').click();">
+                    <i class="fal fa-comments"></i>
+                </button>
+                <button class="btn btn-lg btn-circle btn-primary hand shadow" onclick="document.getElementById('tab-soporte').click();">
+                    <i class="fal fa-bell"></i>
+                </button>
+                <button class="btn btn-lg btn-circle btn-secondary hand shadow" onclick="document.getElementById('tab-mantenimiento').click();">
+                    <i class="fal fa-clock"></i>
+                </button>
+                <button class="btn btn-lg btn-circle btn-success hand shadow" onclick="document.getElementById('tab-links').click();">
+                    <i class="fal fa-bookmark"></i>
+                </button>
            </div>
        ` 
         },
