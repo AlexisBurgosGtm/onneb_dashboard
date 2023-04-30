@@ -19,6 +19,9 @@ function getView(){
                    <div class="tab-pane fade" id="links" role="tabpanel" aria-labelledby="">  
                         ${view.links()}
                    </div>
+                   <div class="tab-pane fade" id="token" role="tabpanel" aria-labelledby="">  
+                        ${view.token() + view.modal_token()}
+                   </div>
                </div>
                
                <ul class="nav nav-tabs hidden" id="myTabHome" role="tablist">         
@@ -37,6 +40,10 @@ function getView(){
                     <li class="nav-item">
                         <a class="nav-link negrita text-info" id="tab-links" data-toggle="tab" href="#links" role="tab" aria-controls="home" aria-selected="true">
                             <i class="fal fa-edit"></i>Links</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link negrita text-info" id="tab-token" data-toggle="tab" href="#token" role="tab" aria-controls="home" aria-selected="true">
+                            <i class="fal fa-edit"></i>Links</a>
                     </li>            
                 </ul>
 
@@ -54,6 +61,9 @@ function getView(){
                 </button>
                 <button class="btn btn-lg btn-circle btn-success hand shadow" onclick="document.getElementById('tab-links').click();">
                     <i class="fal fa-bookmark"></i>
+                </button>
+                <button class="btn btn-lg btn-circle btn-warning hand shadow" onclick="document.getElementById('tab-token').click();">
+                    <i class="fal fa-user"></i>
                 </button>
            </div>
        ` 
@@ -399,6 +409,89 @@ function getView(){
                 
                 </div>
             `
+        },
+        token:()=>{
+            return `
+            <div class="card card-rounded shadow">
+                <div class="card-body p-4">
+                    <div class="form-group">    
+                        <label>Búsqueda de Token</label>
+                        <input type="text" class="form-control" id="txtFiltrarToken" placeholder="Escriba para filtrar...">
+                    </div>
+                    <br>
+                    <div class="table-responsive">
+                        <table class="table table-responsive table-hover" id="tblTokens">
+                            <thead>
+                                <tr>
+                                    <td>Token</td>
+                                    <td>Empresa</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="tblDataTokens"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="fixed-btn2">
+                <button class="btn btn-circle btn-xl btn-info hand shadow" id="btnNuevoToken">
+                    <i class="fal fa-plus"></i>
+                </button>
+            </div>
+            `
+        },
+        modal_token:()=>{
+            return `
+        <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true" id="modalToken">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="dropdown-header bg-info d-flex justify-content-center align-items-center w-100">
+                        <h4 class="m-0 text-center color-white">
+                            Agregar Nuevo Token
+                        </h4>
+                        <button type="button" class="close text-white position-absolute pos-top pos-right p-2 m-1 mr-2" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-4">
+                       
+                            <div class="form-group">
+                                <label class="negrita">Token:</label>
+                                <input type="text" class="form-control negrita text-danger" id="txtTokenToken">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="negrita">Empresa:</label>
+                                <input type="text" class="form-control" id="txtTokenEmpresa">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="negrita">Clave:</label>
+                                <input type="text" class="form-control" id="txtTokenClave">
+                            </div>
+                           
+                                                     
+    
+                            <br>
+                            <div class="row">
+                                <div class="col-6">
+                                        <button class="btn btn-circle btn-warning hand btn-xl shadow" id="" data-dismiss="modal">
+                                            <i class="fal fa-arrow-left"></i>
+                                        </button>
+                                </div>
+                                <div class="col-6">
+                                        <button class="btn btn-circle btn-primary hand btn-xl shadow" id="btnTokenGuardar">
+                                            <i class="fal fa-save"></i>
+                                        </button>
+                                </div>                        
+                            </div>
+                          
+    
+                    </div>
+                </div>
+            </div>
+        </div> 
+            `
         }
     };
 
@@ -429,24 +522,12 @@ function addListeners(){
     });
 
     btnReduce.addEventListener('click',()=>{
-        funciones.Confirmacion('¿Está seguro que desea REDUCIR LA BASE DE DATOS?')
-        .then((value)=>{
-            if(value==true){
-                fcn_reduceDb();
-            }
-        })
-        
+            fcn_reduceDb();    
     });
     
 
     btnLog.addEventListener('click',()=>{
-        funciones.Confirmacion('¿Está seguro que desea reducir el log?')
-        .then((value)=>{
-            if(value==true){
-                fcn_reduceLog();
-            }
-        })
-        
+                fcn_reduceLog();        
     });
     
     btnIndex.addEventListener('click',()=>{
@@ -575,6 +656,22 @@ function addListeners(){
 
     getUrls();
 
+
+    document.getElementById('btnNuevoToken').addEventListener('click',()=>{
+        document.getElementById('txtTokenToken').value = "";
+        document.getElementById('txtTokenEmpresa').value = "";
+        document.getElementById('txtTokenClave').value = "";
+        
+        $("#modalToken").modal('show');
+    });
+
+    document.getElementById('txtFiltrarToken').addEventListener('keyup',()=>{
+        funciones.FiltrarTabla('tblTokens','txtFiltrarToken');
+    });
+
+    get_tbl_tokens();
+
+    funciones.slideAnimationTabs();
 
 };
 
@@ -1250,6 +1347,54 @@ function update_usuario(usuario,pass,coddoc,correlativo,codsucursal){
             console.log(error);
             reject();
         });
+    });
+
+};
+
+
+
+
+function get_tbl_tokens(){
+
+    let cmbHost = document.getElementById('cmbHost');
+    let timeout = document.getElementById('txtTimeout').value;
+
+    let txtContainer = document.getElementById('tblDataTokens');
+    txtContainer.innerHTML = GlobalLoader;
+
+    
+    axios.post('/usuarios/qry_tokens', {
+        host: cmbHost.value,
+        timeout: Number(timeout)
+    })
+    .then((response) => {
+        const data = response.data;
+
+        let st = '';
+        
+        data.recordset.map((r)=>{
+            st += `
+                <tr>
+                    <td>
+                        ${r.TOKEN}
+                    </td>
+                    <td>
+                        ${r.EMPRESA}
+                        <br>
+                        <small class="negrita text-danger">Activo: ${r.ACTIVO}</small> 
+                    </td>
+                    <td>
+                        <button class="btn btn-md btn-circle btn-info hand shadow" onclick="">
+                            <i class="fal fa-list"></i>
+                        </button>
+                    </td>
+                </tr>
+            `
+        })
+
+        txtContainer.innerHTML = st;
+    }, (error) => {
+        txtContainer.innerHTML = error;
     });
 
 };

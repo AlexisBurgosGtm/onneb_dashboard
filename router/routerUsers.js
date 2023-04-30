@@ -4,6 +4,15 @@ const execute = require('./connection');
 
 let con;
 
+router.post("/qry_tokens", async(req,res)=>{
+
+	const {host,timeout} = req.body;
+
+	let qr = `SELECT TOKEN, EMPRESA, ACTIVO, CLAVE FROM TOKENS;`
+	execute.Query(res,qr);
+
+});
+
 router.post("/delete_anydesk", async(req,res)=>{
 
 	const {id} = req.body;

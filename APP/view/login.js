@@ -42,7 +42,7 @@ function getView(){
         
                 </div>
             </div>
-            <small class="negrita text-danger">v 12.2022.r29.1</small>
+            <small class="negrita text-danger">v04.2023.r29</small>
         </div>
         `
 
