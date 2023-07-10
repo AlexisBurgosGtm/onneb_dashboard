@@ -10,6 +10,7 @@ var routerUsers = require('./router/routerUsers');
 var routerVentas = require('./router/routerVentas');
 var routerSupervisor = require('./router/routerSupervisor');
 var routerapi = require('./router/routerapi');
+var router_soporte = require('./router/router_soporte');
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -97,6 +98,11 @@ app.use('/usuarios', routerUsers);
 app.use('/api', routerapi);
 
 
+app.use('/soporte', router_soporte);
+
+
+
+
 app.use("/",router);
 
 
@@ -122,8 +128,3 @@ http.listen(PORT, function(){
   console.log('listening on *:' + PORT);
 });
 
-/*
-app.listen(PORT, function(){
-  console.log('listening on *:' + PORT);
-});
-*/

@@ -8,17 +8,6 @@ function getView(){
                         <img src="./favicon.png" alt="" width="100" height="100">
                     </div>
                     <div class="form-group">
-                        <!--
-                        <select class="form-control" id="cmbApp">
-                            <option value="GERENCIA">GERENCIA</option>                           
-                            
-                            <option value="VENTAS">VENTAS</option>
-                            <option value="SUPERVISOR">SUPERVISOR</option>
-                            <option value="REPARTO">REPARTO</option>
-                            <option value="BODEGA">BODEGA</option>
-                            <option value="PRESENTER">PRESENTACION</option> 
-                        </select>
-                        -->
                     </div>
                     <div class="form-group">
                         <label class="form-label text-primary" for="username">Usuario</label>
@@ -42,7 +31,7 @@ function getView(){
         
                 </div>
             </div>
-            <small class="negrita text-danger">v04.2023.r29</small>
+            <small class="negrita text-danger">v07.2023.r10</small>
         </div>
         `
 

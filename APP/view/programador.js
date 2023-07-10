@@ -421,7 +421,7 @@ function getView(){
                     <br>
                     <div class="table-responsive">
                         <table class="table table-responsive table-hover" id="tblTokens">
-                            <thead>
+                            <thead class="bg-info text-white negrita">
                                 <tr>
                                     <td>Token</td>
                                     <td>Empresa</td>
