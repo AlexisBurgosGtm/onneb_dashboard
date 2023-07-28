@@ -22,6 +22,9 @@ function getView(){
                    <div class="tab-pane fade" id="token" role="tabpanel" aria-labelledby="">  
                         ${view.token() + view.modal_token()}
                    </div>
+                   <div class="tab-pane fade" id="spy" role="tabpanel" aria-labelledby="">  
+                        ${view.spy()}
+                   </div>
                </div>
                
                <ul class="nav nav-tabs hidden" id="myTabHome" role="tablist">         
@@ -44,6 +47,10 @@ function getView(){
                     <li class="nav-item">
                         <a class="nav-link negrita text-info" id="tab-token" data-toggle="tab" href="#token" role="tab" aria-controls="home" aria-selected="true">
                             <i class="fal fa-edit"></i>Links</a>
+                    </li>  
+                    <li class="nav-item">
+                        <a class="nav-link negrita text-info" id="tab-spy" data-toggle="tab" href="#spy" role="tab" aria-controls="home" aria-selected="true">
+                            <i class="fal fa-edit"></i>spy</a>
                     </li>            
                 </ul>
 
@@ -64,6 +71,9 @@ function getView(){
                 </button>
                 <button class="btn btn-lg btn-circle btn-warning hand shadow" onclick="document.getElementById('tab-token').click();">
                     <i class="fal fa-user"></i>
+                </button>
+                <button class="btn btn-lg btn-circle btn-outline-primary hand shadow" onclick="document.getElementById('tab-spy').click();">
+                    <i class="fal fa-box"></i>
                 </button>
            </div>
        ` 
@@ -492,6 +502,39 @@ function getView(){
             </div>
         </div> 
             `
+        },
+        spy:()=>{
+            return `
+            <div class="card card-rounded col-12 shadow p-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Sucursal</label>
+                                <select class="form-control negrita text-danger" id="cmbSucursalVpn">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-xl btn-outline-secondary btn-circle hand shadow" id="btnVpnHD">
+                                <i class="fal fa-hdd"></i>
+                            </button>
+                            <button class="btn btn-xl btn-outline-secondary btn-circle hand shadow" id="btnVpnLog">
+                                <i class="fal fa-box"></i>
+                            </button>
+                            <button class="btn btn-xl btn-outline-secondary btn-circle hand shadow" id="btnVpnDb">
+                                <i class="fal fa-database"></i>
+                            </button>
+                            <button class="btn btn-xl btn-outline-secondary btn-circle hand shadow" id="btnVpnRam">
+                                <i class="fal fa-ticket-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <h1 class="negrita text-info" id="lbResVpn"></h1>
+
+                </div>
+            </div>
+            `
         }
     };
 
@@ -671,6 +714,51 @@ function addListeners(){
 
     get_tbl_tokens();
 
+//---------------------------------------------------
+//  SPY VPN
+//---------------------------------------------------
+    let strSucursalesVpn = `
+        <option value='localhost:9000/'>Localhost</option>
+        <option value='http://192.168.196.102:9000/'>SUPER SAN FELIPE</option>
+        <option value='http://192.168.196.100:9100/'>SUPER MULUA</option>
+        <option value='http://192.168.196.143:9000/'>SUPER PALMAR</option>
+        <option value='http://192.168.196.177:9000/'>BARATERO TIENDA</option>
+        <option value=''></option>
+    `;
+    document.getElementById('cmbSucursalVpn').innerHTML = strSucursalesVpn;
+    
+    document.getElementById('btnVpnHD').addEventListener('click',()=>{
+      
+        document.getElementById('lbResVpn').innerText = '';
+        runQueryVpn('hd')
+        .then((data)=>{document.getElementById('lbResVpn').innerText = data;})
+        .catch((err)=>{document.getElementById('lbResVpn').innerText = err;})
+
+    })
+    document.getElementById('btnVpnLog').addEventListener('click',()=>{
+        document.getElementById('lbResVpn').innerText = '';
+        runQueryVpn('log')
+        .then((data)=>{document.getElementById('lbResVpn').innerText = data;})
+        .catch((err)=>{document.getElementById('lbResVpn').innerText = err;})
+
+    })
+     document.getElementById('btnVpnDb').addEventListener('click',()=>{
+        document.getElementById('lbResVpn').innerText = '';
+        runQueryVpn('db')
+        .then((data)=>{document.getElementById('lbResVpn').innerText = data;})
+        .catch((err)=>{document.getElementById('lbResVpn').innerText = err;})
+
+    })
+     document.getElementById('btnVpnRam').addEventListener('click',()=>{
+        document.getElementById('lbResVpn').innerText = '';
+        runQueryVpn('ram')
+        .then((data)=>{document.getElementById('lbResVpn').innerText = data;})
+        .catch((err)=>{document.getElementById('lbResVpn').innerText = err;})
+
+    })
+
+//---------------------------------------------------
+//---------------------------------------------------
     funciones.slideAnimationTabs();
 
 };
@@ -716,6 +804,26 @@ function runQuery(){
     }, (error) => {
         txtContainer.innerHTML = error;
     });
+
+};
+
+function runQueryVpn(servicio){
+
+    let url = document.getElementById('cmbSucursalVpn').value.toString() + servicio;
+     
+    return new Promise((resolve,reject)=>{
+        
+        console.log(url);
+
+            axios.get(url)
+            .then((response) => {
+                let data = response.data;
+                resolve(data);
+            }, (error) => {
+                reject('Error al obtener datos');
+            });
+    })
+    
 
 };
 
