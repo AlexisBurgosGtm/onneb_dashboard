@@ -31,7 +31,7 @@ function getView(){
         
                 </div>
             </div>
-            <small class="negrita text-danger">v07.2023.r10</small>
+            <small class="negrita text-danger">v07.2023.r27</small>
         </div>
         `
 
