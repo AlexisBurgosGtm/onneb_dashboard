@@ -4,6 +4,27 @@ const execute = require('./connection');
 
 let con;
 
+
+router.post("/delete_token", async(req,res)=>{
+
+	const {token} = req.body;
+
+	let qr = `DELETE TOKENS WHERE TOKEN='${token}';`
+	execute.Query(res,qr);
+
+});
+
+
+router.post("/update_status_token", async(req,res)=>{
+
+	const {token,sino} = req.body;
+
+	let qr = `UPDATE TOKENS SET ACTIVO='${sino}' WHERE TOKEN='${token}';`
+	execute.Query(res,qr);
+
+});
+
+
 router.post("/qry_tokens", async(req,res)=>{
 
 	const {host,timeout} = req.body;

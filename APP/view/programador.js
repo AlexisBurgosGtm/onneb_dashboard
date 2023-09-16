@@ -435,6 +435,7 @@ function getView(){
                                 <tr>
                                     <td>Token</td>
                                     <td>Empresa</td>
+                                    <td>ACT/DESAC</td>
                                     <td></td>
                                 </tr>
                             </thead>
@@ -527,6 +528,9 @@ function getView(){
                             </button>
                             <button class="btn btn-xl btn-outline-secondary btn-circle hand shadow" id="btnVpnRam">
                                 <i class="fal fa-ticket-alt"></i>
+                            </button>
+                            <button class="btn btn-xl btn-outline-danger btn-circle hand shadow" id="btnVpnReducir">
+                                <i class="fal fa-sort-amount-down"></i>
                             </button>
                         </div>
                     </div>
@@ -756,6 +760,12 @@ function addListeners(){
         .catch((err)=>{document.getElementById('lbResVpn').innerText = err;})
 
     })
+    document.getElementById('btnVpnReducir').addEventListener('click',()=>{
+        document.getElementById('lbResVpn').innerText = '';
+        runQueryVpn('reduce')
+        .then((data)=>{document.getElementById('lbResVpn').innerText = data;})
+        .catch((err)=>{document.getElementById('lbResVpn').innerText = err;})
+    })
 
 //---------------------------------------------------
 //---------------------------------------------------
@@ -921,43 +931,6 @@ function fcn_reduceLog(){
 
 };
 
-function BACKUP_fcn_indexDb(){
-
-   
-    let cmbHost = document.getElementById('cmbHost');
-    let timeout = document.getElementById('txtTimeout').value;
-
-    let qry = `DECLARE @TableName varchar(200)
-    DECLARE TableCursor CURSOR FOR
-    SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES
-    WHERE TABLE_TYPE = 'BASE TABLE'
-    OPEN TableCursor
-    FETCH NEXT FROM TableCursor INTO @TableName
-    WHILE @@FETCH_STATUS = 0
-    BEGIN
-    PRINT 'Reindexando ' + @TableName
-    DBCC DBREINDEX (@TableName)
-    FETCH NEXT FROM TableCursor INTO @TableName
-    END
-    CLOSE TableCursor
-    DEALLOCATE TableCursor`;
-
-    let txtContainer = document.getElementById('txtContainer');
-    txtContainer.innerHTML = GlobalLoader;
-
-    axios.post('/usuarios/qry', {
-        host: cmbHost.value,
-        timeout: Number(timeout),
-        qry:qry
-    })
-    .then((response) => {
-        const data = JSON.stringify(response);
-        txtContainer.innerHTML = data;
-    }, (error) => {
-        txtContainer.innerHTML = error;
-    });
-
-};
 
 function fcn_indexDb(){
 
@@ -1481,6 +1454,11 @@ function get_tbl_tokens(){
         let st = '';
         
         data.recordset.map((r)=>{
+            let strClass = ''; let strClassSt = '';
+            let btnId = `btn${r.TOKEN}`; let btnIdEliminar = `btnE${r.TOKEN}`; 
+           
+            if(r.ACTIVO=='SI'){strClass='btn-success';strClassSt='text-success';}else{strClass='btn-danger';strClassSt='text-danger';};
+
             st += `
                 <tr>
                     <td>
@@ -1489,11 +1467,19 @@ function get_tbl_tokens(){
                     <td>
                         ${r.EMPRESA}
                         <br>
-                        <small class="negrita text-danger">Activo: ${r.ACTIVO}</small> 
+                        <small class="negrita ${strClassSt}">Activo: ${r.ACTIVO}</small> 
                     </td>
                     <td>
-                        <button class="btn btn-md btn-circle btn-info hand shadow" onclick="">
-                            <i class="fal fa-list"></i>
+                        <button id='${btnId}' class="btn btn-md btn-circle ${strClass} hand shadow" 
+                        onclick="set_activo_inactivo('${r.TOKEN}','${btnId}','${r.ACTIVO}')">
+                            <i class="fal fa-sync"></i>
+                        </button>
+                    </td>
+
+                    <td>
+                        <button id='${btnIdEliminar}' class="btn btn-md btn-circle btn-danger hand shadow" 
+                        onclick="get_delete_token('${r.TOKEN}','${btnIdEliminar}')">
+                            <i class="fal fa-trash"></i>
                         </button>
                     </td>
                 </tr>
@@ -1505,4 +1491,116 @@ function get_tbl_tokens(){
         txtContainer.innerHTML = error;
     });
 
+};
+
+
+function set_activo_inactivo(token,idbtn,st){
+  
+    let btn = document.getElementById(idbtn);
+    
+  
+    funciones.Confirmacion('¿Está seguro que desea Activar/Desactivar este token?')
+    .then((value)=>{
+        if(value==true){
+
+            btn.innerHTML = '<i class="fal fa-sync fa-spin"></i>';
+            btn.disabled = true;
+
+            let status = '';
+            if(st=='SI'){
+                status = 'NO';
+            }else{
+                status = 'SI';
+            }
+
+            update_token(token,status)
+            .then(()=>{
+                funciones.Aviso('Token actualizado exitosamente!!');
+                get_tbl_tokens();
+            })
+            .catch(()=>{
+                funciones.AvisoError('No se pudo actualizar');
+                btn.innerHTML = '<i class="fal fa-sync"></i>';
+                btn.disabled = false;
+            })
+
+        }
+    })
+
+
+
+};
+
+function update_token(token,sino){
+   
+    return new Promise((resolve, reject) => {
+        axios.post('/usuarios/update_status_token', {
+           token:token,
+           sino:sino
+        })
+        .then((response) => {
+            const data = response.data;
+            if(Number(data.rowsAffected[0])==0){
+                reject();
+            }else{
+                resolve();
+            }
+        }, (error) => {
+            console.log(error);
+            reject();
+        });
+    });
+};
+
+
+
+function get_delete_token(token,idbtn){
+  
+    let btn = document.getElementById(idbtn);
+    
+  
+    funciones.Confirmacion('¿Está seguro que desea ELIMINAR este token?')
+    .then((value)=>{
+        if(value==true){
+
+            btn.innerHTML = '<i class="fal fa-trash fa-spin"></i>';
+            btn.disabled = true;
+
+            
+            delete_token(token)
+            .then(()=>{
+                funciones.Aviso('Token Eliminado exitosamente!!');
+                get_tbl_tokens();
+            })
+            .catch(()=>{
+                funciones.AvisoError('No se pudo Eliminar');
+                btn.innerHTML = '<i class="fal fa-trash"></i>';
+                btn.disabled = false;
+            })
+
+        }
+    })
+
+
+
+};
+
+function delete_token(token){
+   
+    return new Promise((resolve, reject) => {
+        axios.post('/usuarios/delete_token', {
+           token:token
+        })
+        .then((response) => {
+            const data = response.data;
+            if(Number(data.rowsAffected[0])==0){
+                reject();
+            }else{
+                resolve();
+            }
+        }, (error) => {
+            console.log(error);
+            reject();
+        });
+    });
 };
