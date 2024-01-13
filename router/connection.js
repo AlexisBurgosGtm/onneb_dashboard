@@ -7,10 +7,10 @@
 };
 
 const config = {
-	user: 'DB_A6478C_ltjdistribuidores_admin',
+	user: 'db_a6478c_onnebsync_admin',
 	password: 'razors1805',
-	server: 'sql5066.site4now.net',
-	database: 'DB_A6478C_ltjdistribuidores',
+	server: 'sql5052.site4now.net',
+	database: 'db_a6478c_onnebsync',
 	pool: {	max: 100,	min: 0,	idleTimeoutMillis: 30000}
 };
 
